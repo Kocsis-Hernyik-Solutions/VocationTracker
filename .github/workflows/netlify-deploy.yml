@@ -3,7 +3,7 @@ name: Deploy to Netlify
 on:
   push:
     branches:
-      - main  # Ez a branch triggereli a workflow-t
+      - main  # A branch, amely triggereli a workflow-t
 
 jobs:
   build-and-deploy:
@@ -29,5 +29,5 @@ jobs:
       with:
         publish-dir: dist/vocation-tracker/browser
         production-deploy: true
+      env:
         NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-        NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
