@@ -3,31 +3,26 @@ name: Deploy to Netlify
 on:
   push:
     branches:
-      - main  # A branch, amely triggereli a workflow-t
+      - main  # A branch, amely változáskor triggereli a workflow-t
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
+    - name: Checkout repository
       uses: actions/checkout@v3
 
-    - name: Set up Node.js
+    - name: Setup Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: 22  # Node.js verzió
+        node-version: 22
 
     - name: Install dependencies
       run: npm install
 
-    - name: Build Angular app
+    - name: Build the Angular app
       run: npm run build -- --output-path=dist/vocation-tracker/browser
 
     - name: Deploy to Netlify
-      uses: nwtgck/actions-netlify@v2
-      with:
-        publish-dir: dist/vocation-tracker/browser
-        production-deploy: true
-      env:
-        NETLIFY_AUTH_TOKEN: nfp_vC1ofprL6vwJXQwJobYyJxpWDtt4iQzT24a5
+      run: npx netlify deploy --auth nfp_vC1ofprL6vwJXQwJobYyJxpWDtt4iQzT24a5 --prod --dir=dist/vocation-tracker/browser
