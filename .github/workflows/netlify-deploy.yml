@@ -30,4 +30,4 @@ jobs:
         publish-dir: dist/vocation-tracker/browser
         production-deploy: true
       env:
-        NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+        NETLIFY_AUTH_TOKEN: nfp_vC1ofprL6vwJXQwJobYyJxpWDtt4iQzT24a5
