@@ -28,7 +28,7 @@ jobs:
       run: npm install -g @angular/cli
 
     - name: Build Angular app
-      run:  ng build --output-path=dist/vocation-tracker/browser
+      run:  ng build --output-path=dist/vocation-tracker/browser --base-href=/
 
     - name: Deploy to Netlify
       run: netlify deploy --auth nfp_vC1ofprL6vwJXQwJobYyJxpWDtt4iQzT24a5 --prod --dir=dist/vocation-tracker/browser --site=37414b4c-edd1-4f7b-a6a6-224b036a17d0
