@@ -28,4 +28,4 @@ jobs:
       run: npm run build -- --output-path=dist/vocation-tracker/browser
 
     - name: Deploy to Netlify
-      run: netlify deploy --auth nfp_vC1ofprL6vwJXQwJobYyJxpWDtt4iQzT24a5 --prod --dir=dist/vocation-tracker/browser
+      run: netlify deploy --auth nfp_vC1ofprL6vwJXQwJobYyJxpWDtt4iQzT24a5 --prod --dir=dist/vocation-tracker/browser --site=<NETLIFY_SITE_ID>
