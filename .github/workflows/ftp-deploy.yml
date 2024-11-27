@@ -1,0 +1,48 @@
+name: 🚀 Deploy Angular App to FTP
+
+on:
+  push:
+    branches:
+      - main  # Csak a main branch pushai indítják el
+
+jobs:
+  web-deploy:
+    name: 🎉 Build and Deploy Angular App
+    runs-on: ubuntu-latest
+
+    steps:
+    # 1. Kód letöltése
+    - name: 🚚 Get latest code
+      uses: actions/checkout@v4
+
+    # 2. Node.js telepítése
+    - name: 🛠️ Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 22  # Angular által támogatott verzió
+
+    # 3. Angular függőségek telepítése
+    - name: 📦 Install dependencies
+      run: npm install
+
+    # 4. Angular alkalmazás buildelése
+    - name: 🏗️ Build Angular App
+      run: npm run build -- --output-path=dist --base-href=/
+
+    # 5. Meglévő fájlok törlése FTP-ről
+    - name: 🧹 Clear existing files from FTP
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y lftp
+        mkdir -p empty
+        lftp -e "set ftp:ssl-allow no; mirror -R --delete ./empty /; bye" -u "${{ secrets.ftp_username }},${{ secrets.ftp_password }}" ${{ secrets.ftp_host }}  
+
+    # 6. Új fájlok feltöltése FTP-re
+    - name: 📂 Sync files to FTP
+      uses: SamKirkland/FTP-Deploy-Action@master
+      with:
+        server: ${{ secrets.ftp_host }}
+        username: ${{ secrets.ftp_username }}
+        password: ${{ secrets.ftp_password }}
+        local-dir: dist/browser/
+        server-dir: /
