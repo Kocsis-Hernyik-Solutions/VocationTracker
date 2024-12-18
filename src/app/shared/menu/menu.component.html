@@ -1,0 +1,32 @@
+<mat-sidenav #sidenav>
+    <mat-list>
+        <mat-list-item style="text-align: end;"><a (click)="close(sidenav)">
+
+            <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="cancel"></mat-icon>
+
+        </a></mat-list-item>
+        <mat-list-item><a routerLink="/dashboard"(click)="close(sidenav)">Főmenü</a></mat-list-item>
+        <mat-list-item><a (click)="close(sidenav)">menü bezárása</a></mat-list-item>
+      </mat-list>
+</mat-sidenav>
+
+<mat-sidenav-container>
+    <mat-sidenav-content>
+        <mat-toolbar>
+            <div fxHide.gt-sm>
+            <button mat-icon-button (click)="onToggleSidenav(sidenav)">
+                <mat-icon >menu</mat-icon>
+            </button>
+        </div>
+           <div> <h3>Vozi legénybucsú</h3></div> 
+           <div fxFlex fxLayout fxLayoutAlign ="flex-end" fxHide.lt-md>
+            <mat-list  fxLayout fxLayoutGap = "20px">
+                <mat-list-item ><a routerLink="/login">Bejelentkezés</a></mat-list-item>
+                <mat-list-item ><a routerLink="/signup">Regisztráció</a></mat-list-item>
+                <mat-list-item ><a routerLink="/dashboard">Főmenü</a></mat-list-item>
+                <mat-list-item ><a routerLink="/profile">Profil</a></mat-list-item>
+              </mat-list>
+           </div>
+        </mat-toolbar>
+    </mat-sidenav-content>
+</mat-sidenav-container>
