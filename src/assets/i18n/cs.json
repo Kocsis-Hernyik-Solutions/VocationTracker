@@ -1,0 +1,56 @@
+{
+  "APP": {
+    "TITLE": "Sledování dovolené",
+    "MENU": {
+      "HOME": "Domů",
+      "CALENDAR": "Kalendář",
+      "STATISTICS": "Statistiky"
+    },
+    "NAV": {
+      "DASHBOARD": "Přehled",
+      "PROFILE": "Profil",
+      "SETTINGS": "Nastavení"
+    },
+    "ACTIONS": {
+      "SAVE": "Uložit",
+      "CANCEL": "Zrušit",
+      "DELETE": "Smazat",
+      "EDIT": "Upravit"
+    }
+  },
+  "THEME": {
+    "LIGHT": "Světlý Režim",
+    "DARK": "Tmavý Režim",
+    "TOGGLE": "Přepnout Režim"
+  },
+  "PROFILE": {
+    "TITLE": "Profil",
+    "SUBTITLE": "Správa osobních údajů",
+    "FORM": {
+      "NAME": "Celé jméno",
+      "NAME_PLACEHOLDER": "Zadejte své celé jméno",
+      "EMAIL": "Email",
+      "EMAIL_PLACEHOLDER": "Zadejte svůj email",
+      "POSITION": "Pozice",
+      "POSITION_PLACEHOLDER": "Zadejte svou pracovní pozici",
+      "DEPARTMENT": "Oddělení",
+      "DEPARTMENT_PLACEHOLDER": "Zadejte své oddělení"
+    },
+    "ACTIONS": {
+      "SAVE": "Uložit změny",
+      "CANCEL": "Zrušit"
+    },
+    "ERRORS": {
+      "REQUIRED": "Toto pole je povinné"
+    }
+  },
+  "FOOTER": {
+    "COPYRIGHT": "Sledování dovolené. Všechna práva vyhrazena.",
+    "CONTACT": "Kontakt",
+    "VERSION": "Verze"
+  },
+  "COOKIE": {
+    "MESSAGE": "Tento web používá cookies pro zajištění nejlepšího zážitku.",
+    "ACCEPT": "Přijmout"
+  }
+}

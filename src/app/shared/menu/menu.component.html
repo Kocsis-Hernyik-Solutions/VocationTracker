@@ -1,32 +1,71 @@
-<mat-sidenav #sidenav>
-    <mat-list>
-        <mat-list-item style="text-align: end;"><a (click)="close(sidenav)">
+<div class="app-container">
+  <mat-sidenav-container>
+    <mat-sidenav #sidenav mode="side">
+      <mat-nav-list>
+        <a mat-list-item routerLink="/dashboard">
+          <mat-icon matListItemIcon>dashboard</mat-icon>
+          <span matListItemTitle>{{ 'APP.NAV.DASHBOARD' | translate }}</span>
+        </a>
+        <a mat-list-item routerLink="/profile">
+          <mat-icon matListItemIcon>person</mat-icon>
+          <span matListItemTitle>{{ 'APP.NAV.PROFILE' | translate }}</span>
+        </a>
+        <a mat-list-item routerLink="/settings">
+          <mat-icon matListItemIcon>settings</mat-icon>
+          <span matListItemTitle>{{ 'APP.NAV.SETTINGS' | translate }}</span>
+        </a>
+      </mat-nav-list>
+    </mat-sidenav>
 
-            <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="cancel"></mat-icon>
-
-        </a></mat-list-item>
-        <mat-list-item><a routerLink="/dashboard"(click)="close(sidenav)">Főmenü</a></mat-list-item>
-        <mat-list-item><a (click)="close(sidenav)">menü bezárása</a></mat-list-item>
-      </mat-list>
-</mat-sidenav>
-
-<mat-sidenav-container>
     <mat-sidenav-content>
-        <mat-toolbar>
-            <div fxHide.gt-sm>
-            <button mat-icon-button (click)="onToggleSidenav(sidenav)">
-                <mat-icon >menu</mat-icon>
-            </button>
-        </div>
-           <div> <h3>Vozi legénybucsú</h3></div> 
-           <div fxFlex fxLayout fxLayoutAlign ="flex-end" fxHide.lt-md>
-            <mat-list  fxLayout fxLayoutGap = "20px">
-                <mat-list-item ><a routerLink="/login">Bejelentkezés</a></mat-list-item>
-                <mat-list-item ><a routerLink="/signup">Regisztráció</a></mat-list-item>
-                <mat-list-item ><a routerLink="/dashboard">Főmenü</a></mat-list-item>
-                <mat-list-item ><a routerLink="/profile">Profil</a></mat-list-item>
-              </mat-list>
-           </div>
-        </mat-toolbar>
+      <mat-toolbar>
+        <button mat-icon-button (click)="sidenav.toggle()" aria-label="Menu">
+          <mat-icon>menu</mat-icon>
+        </button>
+
+        <button mat-button routerLink="/" class="home-title-button">
+          <span>{{ 'APP.TITLE' | translate }}</span>
+        </button>
+
+        <span class="spacer"></span>
+
+        <button mat-icon-button [matMenuTriggerFor]="languageMenu" aria-label="Language">
+          <mat-icon>language</mat-icon>
+        </button>
+
+        <button mat-icon-button (click)="toggleTheme()" [attr.aria-label]="(themeService.isDarkTheme$ | async) ? 'Light mode' : 'Dark mode'">
+          <mat-icon>{{ (themeService.isDarkTheme$ | async) ? 'light_mode' : 'dark_mode' }}</mat-icon>
+        </button>
+
+        <button mat-icon-button [matMenuTriggerFor]="profileMenu" aria-label="Profile">
+          <mat-icon>account_circle</mat-icon>
+        </button>
+      </mat-toolbar>
+
+      <ng-content></ng-content>
     </mat-sidenav-content>
-</mat-sidenav-container>
+  </mat-sidenav-container>
+
+  <mat-menu #languageMenu="matMenu">
+    <button mat-menu-item (click)="changeLanguage('en')" [class.active-language]="currentLang === 'en'">
+      <span class="mat-mdc-menu-item-text">English</span>
+    </button>
+    <button mat-menu-item (click)="changeLanguage('hu')" [class.active-language]="currentLang === 'hu'">
+      <span class="mat-mdc-menu-item-text">Magyar</span>
+    </button>
+    <button mat-menu-item (click)="changeLanguage('cs')" [class.active-language]="currentLang === 'cs'">
+      <span class="mat-mdc-menu-item-text">Čeština</span>
+    </button>
+  </mat-menu>
+
+  <mat-menu #profileMenu="matMenu">
+    <button mat-menu-item routerLink="/profile">
+      <mat-icon>person</mat-icon>
+      <span>{{ 'APP.NAV.PROFILE' | translate }}</span>
+    </button>
+    <button mat-menu-item routerLink="/settings">
+      <mat-icon>settings</mat-icon>
+      <span>{{ 'APP.NAV.SETTINGS' | translate }}</span>
+    </button>
+  </mat-menu>
+</div>

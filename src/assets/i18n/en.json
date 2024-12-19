@@ -1,0 +1,56 @@
+{
+  "APP": {
+    "TITLE": "Vocation Tracker",
+    "MENU": {
+      "HOME": "Home",
+      "CALENDAR": "Calendar",
+      "STATISTICS": "Statistics"
+    },
+    "NAV": {
+      "DASHBOARD": "Dashboard",
+      "PROFILE": "Profile",
+      "SETTINGS": "Settings"
+    },
+    "ACTIONS": {
+      "SAVE": "Save",
+      "CANCEL": "Cancel",
+      "DELETE": "Delete",
+      "EDIT": "Edit"
+    }
+  },
+  "THEME": {
+    "LIGHT": "Light Mode",
+    "DARK": "Dark Mode",
+    "TOGGLE": "Toggle Theme"
+  },
+  "PROFILE": {
+    "TITLE": "Profile",
+    "SUBTITLE": "Manage your personal information",
+    "FORM": {
+      "NAME": "Full Name",
+      "NAME_PLACEHOLDER": "Enter your full name",
+      "EMAIL": "Email",
+      "EMAIL_PLACEHOLDER": "Enter your email address",
+      "POSITION": "Position",
+      "POSITION_PLACEHOLDER": "Enter your job position",
+      "DEPARTMENT": "Department",
+      "DEPARTMENT_PLACEHOLDER": "Enter your department"
+    },
+    "ACTIONS": {
+      "SAVE": "Save Changes",
+      "CANCEL": "Cancel"
+    },
+    "ERRORS": {
+      "REQUIRED": "This field is required"
+    }
+  },
+  "FOOTER": {
+    "COPYRIGHT": "Vocation Tracker. All rights reserved.",
+    "CONTACT": "Contact",
+    "VERSION": "Version"
+  },
+  "COOKIE": {
+    "MESSAGE": "This website uses cookies to ensure you get the best experience.",
+    "ACCEPT": "Accept"
+  }
+}
