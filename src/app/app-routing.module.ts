@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes, PreloadAllModules } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { ProfileComponent } from './pages/profile/profile.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -15,13 +14,13 @@ const routes: Routes = [
       }
     )
   },
-  { 
+  {
     path: 'dashboard',
     loadChildren: () => import('./pages/dashboard/dashboard.module').then(m => m.DashboardModule)
   },
-  { 
-    path: '**', 
-    redirectTo: '/dashboard' 
+  {
+    path: '**',
+    redirectTo: '/dashboard'
   }
 ];
 
