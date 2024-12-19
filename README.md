@@ -1,59 +1,90 @@
 # VocationTracker
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.0.1.
+## Project Overview
+VocationTracker is a comprehensive web application designed to manage and track employee vacations, time off, and work schedules.
 
-## Development server
+## Technology Stack
+- Angular 17+
+- TypeScript
+- Angular Material
+- RxJS
+- ngx-translate
+- Firebase/Firestore (optional)
 
-To start a local development server, run:
+## Prerequisites
+- Node.js (v18+)
+- npm (v9+)
+- Angular CLI
 
+## Setup and Installation
+
+### 1. Clone the Repository
+```bash
+git clone https://github.com/yourusername/VocationTracker.git
+cd VocationTracker
+```
+
+### 2. Install Dependencies
+```bash
+npm install
+```
+
+### 3. Development Server
 ```bash
 ng serve
 ```
+Navigate to `http://localhost:4200/`
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
+## Project Structure
+```
+src/
+├── app/
+│   ├── core/           # Core services and interceptors
+│   ├── shared/         # Shared components and modules
+│   ├── pages/          # Feature modules
+│   │   ├── dashboard/
+│   │   ├── profile/
+│   │   └── ...
+│   └── ...
+├── assets/             # Static assets
+└── environments/       # Environment configurations
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
+## Build and Deployment
 ```bash
-ng generate --help
+# Production build
+ng build --configuration=production
+
+# Build with stats
+ng build --stats-json
 ```
 
-## Building
-
-To build the project run:
-
+## Running Tests
 ```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
+# Unit tests
 ng test
-```
 
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
+# End-to-end tests
 ng e2e
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+## Key Features
+- User Profile Management
+- Vacation Request System
+- Responsive Design
+- Internationalization Support
 
-## Additional Resources
+## Contributing
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## License
+Distributed under the MIT License. See `LICENSE` for more information.
+
+## Contact
+Your Name - your.email@example.com
+
+Project Link: [https://github.com/yourusername/VocationTracker](https://github.com/yourusername/VocationTracker)
