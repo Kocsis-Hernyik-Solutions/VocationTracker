@@ -1,0 +1,60 @@
+<div class="profile-container">
+  <mat-card class="profile-card">
+    <mat-card-header>
+      <div mat-card-avatar class="profile-avatar">
+        <mat-icon>account_circle</mat-icon>
+      </div>
+      <mat-card-title>{{ 'PROFILE.TITLE' | translate }}</mat-card-title>
+      <mat-card-subtitle>{{ 'PROFILE.SUBTITLE' | translate }}</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="profile-form">
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'PROFILE.FORM.NAME' | translate }}</mat-label>
+          <input matInput formControlName="name" placeholder="{{ 'PROFILE.FORM.NAME_PLACEHOLDER' | translate }}">
+          <mat-icon matSuffix>person</mat-icon>
+          <mat-error *ngIf="profileForm.get('name')?.invalid && profileForm.get('name')?.touched">
+            {{ getErrorMessage('name') | translate }}
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'PROFILE.FORM.EMAIL' | translate }}</mat-label>
+          <input matInput formControlName="email" placeholder="{{ 'PROFILE.FORM.EMAIL_PLACEHOLDER' | translate }}" type="email">
+          <mat-icon matSuffix>email</mat-icon>
+          <mat-error *ngIf="profileForm.get('email')?.invalid && profileForm.get('email')?.touched">
+            {{ getErrorMessage('email') | translate }}
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'PROFILE.FORM.POSITION' | translate }}</mat-label>
+          <input matInput formControlName="position" placeholder="{{ 'PROFILE.FORM.POSITION_PLACEHOLDER' | translate }}">
+          <mat-icon matSuffix>work</mat-icon>
+          <mat-error *ngIf="profileForm.get('position')?.invalid && profileForm.get('position')?.touched">
+            {{ getErrorMessage('position') | translate }}
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'PROFILE.FORM.DEPARTMENT' | translate }}</mat-label>
+          <input matInput formControlName="department" placeholder="{{ 'PROFILE.FORM.DEPARTMENT_PLACEHOLDER' | translate }}">
+          <mat-icon matSuffix>business</mat-icon>
+          <mat-error *ngIf="profileForm.get('department')?.invalid && profileForm.get('department')?.touched">
+            {{ getErrorMessage('department') | translate }}
+          </mat-error>
+        </mat-form-field>
+      </form>
+    </mat-card-content>
+
+    <mat-card-actions align="end">
+      <button mat-button color="warn" type="button" (click)="onCancel()">
+        {{ 'PROFILE.ACTIONS.CANCEL' | translate }}
+      </button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="profileForm.invalid" (click)="onSubmit()">
+        {{ 'PROFILE.ACTIONS.SAVE' | translate }}
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>

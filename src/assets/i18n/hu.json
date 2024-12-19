@@ -1,0 +1,56 @@
+{
+  "APP": {
+    "TITLE": "Szabadság Követő",
+    "MENU": {
+      "HOME": "Kezdőlap",
+      "CALENDAR": "Naptár",
+      "STATISTICS": "Statisztikák"
+    },
+    "NAV": {
+      "DASHBOARD": "Vezérlőpult",
+      "PROFILE": "Profil",
+      "SETTINGS": "Beállítások"
+    },
+    "ACTIONS": {
+      "SAVE": "Mentés",
+      "CANCEL": "Mégse",
+      "DELETE": "Törlés",
+      "EDIT": "Szerkesztés"
+    }
+  },
+  "THEME": {
+    "LIGHT": "Világos Mód",
+    "DARK": "Sötét Mód",
+    "TOGGLE": "Téma Váltás"
+  },
+  "PROFILE": {
+    "TITLE": "Profil",
+    "SUBTITLE": "Személyes adatok kezelése",
+    "FORM": {
+      "NAME": "Teljes név",
+      "NAME_PLACEHOLDER": "Add meg a teljes neved",
+      "EMAIL": "Email cím",
+      "EMAIL_PLACEHOLDER": "Add meg az email címed",
+      "POSITION": "Munkakör",
+      "POSITION_PLACEHOLDER": "Add meg a munkaköröd",
+      "DEPARTMENT": "Részleg",
+      "DEPARTMENT_PLACEHOLDER": "Add meg a részleged"
+    },
+    "ACTIONS": {
+      "SAVE": "Változtatások mentése",
+      "CANCEL": "Mégse"
+    },
+    "ERRORS": {
+      "REQUIRED": "Ez a mező kötelező!"
+    }
+  },
+  "FOOTER": {
+    "COPYRIGHT": "Szabadság Követő. Minden jog fenntartva.",
+    "CONTACT": "Kapcsolat",
+    "VERSION": "Verzió"
+  },
+  "COOKIE": {
+    "MESSAGE": "Ez a weboldal cookie-kat használ a jobb felhasználói élmény érdekében.",
+    "ACCEPT": "Elfogadom"
+  }
+}
