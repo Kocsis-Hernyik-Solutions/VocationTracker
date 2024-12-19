@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.2](https://github.com/Kocsis-Hernyik-Solutions/VocationTracker/compare/v0.0.1...v1.0.2) (2024-12-19)
+
+
+### ✨ Features
+
+* **profile:** Implement lazy-loaded profile module with form validation ([dcb6372](https://github.com/Kocsis-Hernyik-Solutions/VocationTracker/commit/dcb637264efb0bd5cdc098090986e5b1e2a7fcbf))
+* **profile:** Implement lazy-loaded profile module with form validation ([7afaec0](https://github.com/Kocsis-Hernyik-Solutions/VocationTracker/commit/7afaec0a054503adb5e3f91e0706d033434b3c49))
+* test ([8c9d8d9](https://github.com/Kocsis-Hernyik-Solutions/VocationTracker/commit/8c9d8d9345af36bd1c17857e39c01740d6288ffc))
+
+
+### 🐛 Bug Fixes
+
+* **profile:** Resolve module and import configuration issues ([9cb4e0a](https://github.com/Kocsis-Hernyik-Solutions/VocationTracker/commit/9cb4e0a85ca2c170b3cd92517eb1ef83b34d5b28))
+* **profile:** Resolve module and import configuration issues  ([962f80e](https://github.com/Kocsis-Hernyik-Solutions/VocationTracker/commit/962f80ef74c012b35d99886b40b9531b3838610a))
+
+
+### 📝 Documentation
+
+* **readme:** Revamp project documentation ([c596b66](https://github.com/Kocsis-Hernyik-Solutions/VocationTracker/commit/c596b66e010d90e0dca8d402f9582dc3ba0817ec))
+
 ### [1.0.1](https://github.com/Kocsis-Hernyik-Solutions/VocationTracker/compare/v0.0.1...v1.0.1) (2024-12-19)
 
 
