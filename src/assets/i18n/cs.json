@@ -18,6 +18,20 @@
       "EDIT": "Upravit"
     }
   },
+  "ERROR": {
+    "404": {
+      "TITLE": "404 - Nenalezeno",
+      "MESSAGE": "Str&aacute;na, kterou hled&aacute;te neexistuje nebo nem&aacute;te pr&aacute;va k n&aacute;mu.",
+      "SUBMESSAGE": "Zkontrolujte URL nebo vratte se na domovskou str&aacute;nku.",
+      "BACK_BUTTON": "Vratit se na domovskou str&aacute;nku"
+    },
+    "500": {
+      "TITLE": "500 - Serverová chyba",
+      "MESSAGE": "Z&aacute;vazn&aacute; chyba na serveru.",
+      "SUBMESSAGE": "Zkontrolujte URL nebo vratte se na domovskou str&aacute;nku.",
+      "BACK_BUTTON": "Vratit se na domovskou str&aacute;nku"
+    }
+  },
   "THEME": {
     "LIGHT": "Světlý Režim",
     "DARK": "Tmavý Režim",

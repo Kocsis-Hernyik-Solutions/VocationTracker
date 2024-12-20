@@ -9,7 +9,7 @@ import { MatListModule } from '@angular/material/list';
 import { TranslateModule } from '@ngx-translate/core';
 import { ThemeService } from '../../services/theme.service';
 import { LanguageService } from '../../services/language.service';
-import { RouterModule, Routes } from '@angular/router';
+import {RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-menu',
@@ -23,7 +23,7 @@ import { RouterModule, Routes } from '@angular/router';
     MatSidenavModule,
     MatListModule,
     TranslateModule,
-    RouterModule
+    RouterLink
   ],
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.css']

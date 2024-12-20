@@ -1,22 +1,20 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { bootstrapApplication } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
-import { MenuComponent } from './shared/menu/menu.component';
 import { AppComponent } from './app.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { importProvidersFrom } from '@angular/core';
 
-@NgModule({
-  declarations: [AppComponent, MenuComponent],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    HttpClientModule,
-    AppRoutingModule,
-    MatSnackBarModule
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
-})
-export class AppModule { }
+bootstrapApplication(AppComponent, {
+  providers: [
+    importProvidersFrom(
+      BrowserAnimationsModule,
+      HttpClientModule,
+      RouterModule,
+      AppRoutingModule,
+      MatSnackBarModule
+    )
+  ]
+});

@@ -1,4 +1,30 @@
 <div class="app-container">
+  <mat-toolbar>
+    <div class="toolbar-left">
+      <button mat-icon-button (click)="sidenav.toggle()" aria-label="Menu">
+        <mat-icon>menu</mat-icon>
+      </button>
+
+      <button mat-button routerLink="/" class="home-title-button">
+        <span>{{ 'APP.TITLE' | translate }}</span>
+      </button>
+    </div>
+
+    <div class="toolbar-right">
+      <button mat-icon-button [matMenuTriggerFor]="languageMenu" aria-label="Language">
+        <mat-icon>language</mat-icon>
+      </button>
+
+      <button mat-icon-button (click)="toggleTheme()" [attr.aria-label]="(themeService.isDarkTheme$ | async) ? 'Light mode' : 'Dark mode'">
+        <mat-icon>{{ (themeService.isDarkTheme$ | async) ? 'light_mode' : 'dark_mode' }}</mat-icon>
+      </button>
+
+      <button mat-icon-button [matMenuTriggerFor]="profileMenu" aria-label="Profile">
+        <mat-icon>account_circle</mat-icon>
+      </button>
+    </div>
+  </mat-toolbar>
+
   <mat-sidenav-container>
     <mat-sidenav #sidenav mode="side">
       <mat-nav-list>
@@ -18,30 +44,9 @@
     </mat-sidenav>
 
     <mat-sidenav-content>
-      <mat-toolbar>
-        <button mat-icon-button (click)="sidenav.toggle()" aria-label="Menu">
-          <mat-icon>menu</mat-icon>
-        </button>
-
-        <button mat-button routerLink="/" class="home-title-button">
-          <span>{{ 'APP.TITLE' | translate }}</span>
-        </button>
-
-        <span class="spacer"></span>
-
-        <button mat-icon-button [matMenuTriggerFor]="languageMenu" aria-label="Language">
-          <mat-icon>language</mat-icon>
-        </button>
-
-        <button mat-icon-button (click)="toggleTheme()" [attr.aria-label]="(themeService.isDarkTheme$ | async) ? 'Light mode' : 'Dark mode'">
-          <mat-icon>{{ (themeService.isDarkTheme$ | async) ? 'light_mode' : 'dark_mode' }}</mat-icon>
-        </button>
-
-        <button mat-icon-button [matMenuTriggerFor]="profileMenu" aria-label="Profile">
-          <mat-icon>account_circle</mat-icon>
-        </button>
-      </mat-toolbar>
-      <ng-content></ng-content>
+      <div class="main-content">
+        <ng-content></ng-content>
+      </div>
     </mat-sidenav-content>
   </mat-sidenav-container>
 

@@ -1,0 +1,13 @@
+<footer class="footer">
+  <div class="footer-content">
+    <nav class="footer-links">
+      <a routerLink="/about">{{ 'FOOTER.ABOUT' | translate }}</a>
+      <a routerLink="/privacy">{{ 'FOOTER.PRIVACY' | translate }}</a>
+      <a routerLink="/terms">{{ 'FOOTER.TERMS' | translate }}</a>
+      <a routerLink="/contact">{{ 'FOOTER.CONTACT' | translate }}</a>
+    </nav>
+    <div class="copyright">
+      <p>{{ 'FOOTER.COPYRIGHT' | translate:{ year: currentYear } }}</p>
+    </div>
+  </div>
+</footer>

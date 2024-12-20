@@ -1,0 +1,18 @@
+<div class="error-container">
+  <div class="error-content">
+    <div class="error-icon">404</div>
+    <h1>{{ 'ERROR.404.TITLE' | translate }}</h1>
+    <p class="error-message">{{ 'ERROR.404.MESSAGE' | translate }}</p>
+    <p class="error-submessage">{{ 'ERROR.404.SUBMESSAGE' | translate }}</p>
+    <div class="error-actions">
+      <button mat-raised-button color="primary" (click)="goBack()">
+        <mat-icon>arrow_back</mat-icon>
+        {{ 'ERROR.404.BACK_BUTTON' | translate }}
+      </button>
+      <button mat-stroked-button color="primary" (click)="goHome()">
+        <mat-icon>home</mat-icon>
+        {{ 'ERROR.404.HOME_BUTTON' | translate }}
+      </button>
+    </div>
+  </div>
+</div>

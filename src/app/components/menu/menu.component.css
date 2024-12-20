@@ -1,41 +1,50 @@
 .app-container {
-  height: 100vh;
   display: flex;
   flex-direction: column;
-  position: absolute;
+  height: 100%;
+}
+
+mat-toolbar {
+  height: 64px;
+  background-color: var(--toolbar-background);
+  color: var(--text-color);
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  position: fixed;
   top: 0;
-  bottom: 0;
   left: 0;
   right: 0;
+  z-index: 1000;
+}
+
+.toolbar-left {
+  display: flex;
+  align-items: center;
+}
+
+.toolbar-right {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  gap: 8px;
+}
+
+.spacer {
+  flex: 1;
 }
 
 mat-sidenav-container {
   flex: 1;
-  background-color: var(--background-color) ;
   margin-top: 64px;
 }
 
 mat-sidenav {
   width: 250px;
-  background-color: var(--card-background) ;
-  border-right: 1px solid var(--border-color) ;
+  background-color: var(--card-background);
+  border-right: 1px solid var(--border-color);
   transition: transform 0.3s ease-in-out, width 0.3s ease-in-out;
   will-change: transform, width;
-}
-
-mat-toolbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 2;
-  background-color: var(--toolbar-background) ;
-  color: var(--text-color) ;
-  border-bottom: 1px solid var(--border-color);
-}
-
-.spacer {
-  flex: 1 1 auto;
 }
 
 mat-nav-list {
@@ -88,10 +97,16 @@ mat-nav-list a span {
 }
 
 mat-sidenav-content {
+  background-color: var(--background-color);
   display: flex;
   flex-direction: column;
-  min-height: 100%;
-  transition: margin 0.3s ease-in-out;
+}
+
+.main-content {
+  padding: 20px;
+  min-height: calc(100vh - 64px - 40px); /* viewport height - toolbar height - padding */
+  width: 100%;
+  box-sizing: border-box;
 }
 
 /* Language menu styles */

@@ -1,1 +1,65 @@
-<p>dashboard works!</p>
+<div class="dashboard-container">
+  <!-- Üdvözlő rész -->
+  <section class="welcome-section">
+    <div class="welcome-text">
+      <h1>{{ 'DASHBOARD.WELCOME.GREETING' | translate:{ name: userName } }}</h1>
+      <div class="datetime">
+        <span class="time">{{ currentTime | date:'HH:mm' }}</span>
+        <span class="date">{{ currentDate | date:'longDate' }}</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gyors hozzáférés -->
+  <section class="quick-access">
+    <div class="request-vacation">
+      <button class="primary-button" (click)="requestVacation()">
+        {{ 'DASHBOARD.QUICK_ACCESS.REQUEST_VACATION' | translate }}
+      </button>
+    </div>
+    <div class="vacation-status">
+      <div class="remaining-days">
+        <h3>{{ 'DASHBOARD.QUICK_ACCESS.REMAINING_DAYS' | translate:{ days: remainingDays } }}</h3>
+      </div>
+      <div class="pending-requests">
+        <h3>{{ 'DASHBOARD.QUICK_ACCESS.PENDING_REQUESTS' | translate }}</h3>
+        <div class="request-list" *ngIf="pendingRequests.length > 0">
+          <div class="request-item" *ngFor="let request of pendingRequests">
+            <span>{{request.startDate | date}} - {{request.endDate | date}}</span>
+            <span class="status {{request.status}}">{{request.status}}</span>
+          </div>
+        </div>
+        <a href="#" class="view-all">{{ 'DASHBOARD.QUICK_ACCESS.VIEW_ALL' | translate }}</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Naptár és események -->
+  <section class="calendar-section">
+    <div class="calendar">
+      <h2>{{ 'DASHBOARD.CALENDAR.TITLE' | translate }}</h2>
+      <app-calendar></app-calendar>
+    </div>
+    <div class="team-calendar">
+      <h3>{{ 'DASHBOARD.CALENDAR.TEAM_VACATIONS' | translate }}</h3>
+      <app-team-calendar></app-team-calendar>
+    </div>
+  </section>
+
+  <!-- Értesítések -->
+  <section class="notifications">
+    <h2>{{ 'DASHBOARD.NOTIFICATIONS.TITLE' | translate }}</h2>
+    <div class="notification-list" *ngIf="notifications.length > 0">
+      <div class="notification-item" *ngFor="let notification of notifications">
+        <i class="notification-icon" [class]="notification.icon"></i>
+        <div class="notification-content">
+          <p>{{notification.message}}</p>
+          <span class="notification-time">{{notification.time | date:'short'}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="no-notifications" *ngIf="notifications.length === 0">
+      {{ 'DASHBOARD.NOTIFICATIONS.NO_NOTIFICATIONS' | translate }}
+    </div>
+  </section>
+</div>
