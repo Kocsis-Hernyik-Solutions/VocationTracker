@@ -18,6 +18,20 @@
       "EDIT": "Edit"
     }
   },
+  "ERROR": {
+    "404": {
+      "TITLE": "404 - Page Not Found",
+      "MESSAGE": "The page you are looking for does not exist or you don't have permission to access it.",
+      "SUBMESSAGE": "Please check the URL or return to the homepage.",
+      "BACK_BUTTON": "Back to Homepage"
+    },
+    "500": {
+      "TITLE": "500 - Server Error",
+      "MESSAGE": "Sorry, something went wrong on our server.",
+      "SUBMESSAGE": "Please try again later.",
+      "BACK_BUTTON": "Back to Homepage"
+    }
+  },
   "THEME": {
     "LIGHT": "Light Mode",
     "DARK": "Dark Mode",

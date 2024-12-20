@@ -1,60 +1,161 @@
 /* You can add global styles to this file, and also import other style files */
 @import '@angular/material/prebuilt-themes/indigo-pink.css';
 
-/* Theme Classes */
+/* Core Theme Variables */
 :root {
-  --primary-color: #3f51b5;
-  --accent-color: #ff4081;
-  --warn-color: #f44336;
-  --background-color: #f5f5f5;
-  --text-color: rgba(0, 0, 0, 0.87);
-  --secondary-text-color: rgba(0, 0, 0, 0.54);
-  --border-color: rgba(0, 0, 0, 0.12);
-  --card-background: #ffffff;
-  --toolbar-background: #f5f5f5;
-  --hover-background: rgba(0, 0, 0, 0.04);
-  --input-placeholder-color: rgba(0, 0, 0, 0.38);
-  --input-text-color: rgba(0, 0, 0, 0.87);
-  --input-background-color: #ffffff;
+  /* Core Colors */
+  --primary-color: #3B82F6; /* Modern blue */
+  --accent-color: #10B981; /* Vibrant green accent */
+  --warn-color: #EF4444; /* Clear red for warnings */
+  --success-color: #10B981; /* Green for success */
+
+  /* Background and Surface */
+  --background-color: #F9FAFB; /* Light grey background */
+  --card-background: #FFFFFF; /* Clean white for cards */
+  --toolbar-background: #E5E7EB; /* Light grey for toolbar */
+  --hover-background: rgba(59, 130, 246, 0.1); /* Soft blue hover effect */
+
+  /* Text Colors */
+  --text-color: #111827; /* Dark grey for primary text */
+  --secondary-text-color: #6B7280; /* Muted grey for secondary text */
+  --link-color: #3B82F6; /* Modern blue for links */
+
+  /* Inputs */
+  --input-placeholder-color: #9CA3AF; /* Grey placeholder text */
+  --input-text-color: #111827; /* Dark grey for input text */
+  --input-background-color: #FFFFFF; /* White input background */
+
+  /* Borders */
+  --border-color: #D1D5DB; /* Light grey for borders */
+
+  /* Shadows */
+  --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+/* Light Theme */
 .light-theme {
-  --background-color: #ffffff;
-  --text-color: rgba(0, 0, 0, 0.87);
-  --secondary-text-color: rgba(0, 0, 0, 0.54);
-  --border-color: rgba(0, 0, 0, 0.12);
-  --card-background: #ffffff;
-  --toolbar-background: #f5f5f5;
-  --hover-background: rgba(0, 0, 0, 0.04);
-  --input-placeholder-color: rgba(0, 0, 0, 0.38);
-  --input-text-color: rgba(0, 0, 0, 0.87);
-  --input-background-color: #f5f5f5;
+  --background-color: #F9FAFB;
+  --card-background: #FFFFFF;
+  --toolbar-background: #E5E7EB;
+  --hover-background: rgba(59, 130, 246, 0.1);
+  --text-color: #111827;
+  --secondary-text-color: #6B7280;
+  --border-color: #D1D5DB;
+  --link-color: #3B82F6;
+  --input-placeholder-color: #9CA3AF;
+  --input-text-color: #111827;
+  --input-background-color: #FFFFFF;
 }
 
+/* Dark Theme */
 .dark-theme {
-  --background-color: #303030;
-  --text-color: rgba(255, 255, 255, 0.87);
-  --secondary-text-color: rgba(255, 255, 255, 0.6);
-  --border-color: rgba(255, 255, 255, 0.12);
-  --card-background: #424242;
-  --toolbar-background: #212121;
-  --hover-background: rgba(255, 255, 255, 0.08);
-  --input-placeholder-color: rgba(255, 255, 255, 0.6);
-  --input-text-color: rgba(255, 255, 255, 0.87);
-  --input-background-color: #424242;
+  --background-color: #1F2937;
+  --card-background: #374151;
+  --toolbar-background: #1F2937;
+  --hover-background: rgba(255, 255, 255, 0.1);
+  --text-color: #F9FAFB;
+  --secondary-text-color: #9CA3AF;
+  --border-color: #374151;
+  --link-color: #3B82F6;
+  --input-placeholder-color: #9CA3AF;
+  --input-text-color: #F9FAFB;
+  --input-background-color: #1F2937;
 }
 
+/* Utility Classes */
+.btn-primary {
+  background-color: var(--primary-color);
+  color: #FFFFFF;
+  border: none;
+  border-radius: 4px;
+  box-shadow: var(--box-shadow);
+  padding: 8px 16px;
+  transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: #2563EB; /* Slightly darker blue */
+}
+
+.alert-warning {
+  background-color: var(--warn-color);
+  color: #FFFFFF;
+  border-radius: 4px;
+  padding: 10px;
+}
+
+.alert-success {
+  background-color: var(--success-color);
+  color: #FFFFFF;
+  border-radius: 4px;
+  padding: 10px;
+}
+
+.card {
+  background-color: var(--card-background);
+  box-shadow: var(--box-shadow);
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.toolbar {
+  background-color: var(--toolbar-background);
+  padding: 12px 24px;
+  color: var(--text-color);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Ensure proper layout */
 html, body {
   height: 100%;
   margin: 0;
   padding: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
 body {
+  font-family: Roboto, "Helvetica Neue", sans-serif;
   background-color: var(--background-color);
   color: var(--text-color);
-  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+app-root {
+  min-height: 100%;
+  display: block;
+}
+
+app-menu {
+  display: block;
+  min-height: calc(100vh - 200px); /* 200px a footer becsült magassága */
+}
+
+main {
+  flex: 1;
+}
+
+a {
+  color: var(--link-color);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+input, select, textarea {
+  background-color: var(--input-background-color);
+  color: var(--input-text-color);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 8px 12px;
+}
+
+input::placeholder {
+  color: var(--input-placeholder-color);
+}
+
+/* Transition for theme changes */
+* {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 /* Material overrides */

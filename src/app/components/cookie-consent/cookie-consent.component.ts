@@ -8,14 +8,21 @@ import { LanguageService } from '../../services/language.service';
 
 @Component({
   selector: 'app-cookie-consent',
-  template: '<div></div>',
   standalone: true,
   imports: [
     CommonModule,
     MatSnackBarModule,
     MatButtonModule,
     TranslateModule
-  ]
+  ],
+  template: `
+    <div>
+      <!-- Your cookie consent template content here -->
+    </div>
+  `,
+  styles: [`
+    /* Your styles here */
+  `]
 })
 export class CookieConsentComponent implements OnInit, OnDestroy {
   private readonly COOKIE_KEY = 'cookieConsent';
