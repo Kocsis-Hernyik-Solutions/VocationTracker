@@ -1,7 +1,8 @@
 import { ApplicationConfig, importProvidersFrom, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
-import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
-import { getFirestore, provideFirestore } from '@angular/fire/firestore';
+import { AngularFireModule } from '@angular/fire/compat'; // compat module
+import { AngularFireAuthModule } from '@angular/fire/compat/auth'; // Auth Module for compat
+import { AngularFirestoreModule } from '@angular/fire/compat/firestore'; // Firestore Module for compat
 
 import { routes } from './app.routes';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
@@ -16,8 +17,14 @@ const firebaseConfig = {
 };
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes), provideAnimationsAsync(),
-      provideFirebaseApp(() => initializeApp(firebaseConfig)),
-      provideFirestore(() => getFirestore())
+  providers: [
+    provideZoneChangeDetection({ eventCoalescing: true }),
+    provideRouter(routes),
+    provideAnimationsAsync(),
+    importProvidersFrom(
+      AngularFireModule.initializeApp(firebaseConfig), // compat module initialization
+      AngularFireAuthModule, // for authentication
+      AngularFirestoreModule // for Firestore
+    )
   ]
 };

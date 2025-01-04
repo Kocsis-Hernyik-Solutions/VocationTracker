@@ -17,6 +17,10 @@ const routes: Routes = [
     path: 'dashboard',
     loadChildren: () => import('./pages/dashboard/dashboard.module').then(m => m.DashboardModule)
   },
+  {
+    path: 'registration',
+    loadChildren: () => import('./pages/registration/registration.module').then(m => m.RegistrationModule)
+  },
   { path: '500', component: Error500Component },
   { path: '404', component: Error404Component },
   { path: '**', redirectTo: '404' }

@@ -11,10 +11,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { ProfileRoutingModule } from './profile-routing.module';
-import { ProfileComponent } from './profile.component';
 
 @NgModule({
-  declarations: [ProfileComponent],
+  declarations: [],
   imports: [
     CommonModule,
     ProfileRoutingModule,
