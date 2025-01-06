@@ -21,15 +21,27 @@ jobs:
       with:
         node-version: 18  # Angular által támogatott verzió
 
-    # 3. Angular függőségek telepítése
-    - name: 📦 Install dependencies
-      run: npm install
+    # 3. Angular CLI downgradelése (ha szükséges)
+    - name: 🛠️ Install Angular CLI
+      run: npm install -g @angular/cli@14  # Használj a downgradelt Angular verzióhoz megfelelő CLI-t
 
-    # 4. Angular alkalmazás buildelése
+    # 4. NPM cache tisztítása
+    - name: 🧹 Clean NPM cache
+      run: npm cache clean --force
+
+    # 5. Függőségek telepítése
+    - name: 📦 Install dependencies
+      run: npm install --legacy-peer-deps  # Peer dependency hibák elkerülése
+
+    # 6. Angular build eszközök telepítése (ha szükséges)
+    - name: 🔧 Install @angular-devkit/build-angular
+      run: npm install @angular-devkit/build-angular@14  # Downgradelt verzióhoz igazítva
+
+    # 7. Angular alkalmazás buildelése
     - name: 🏗️ Build Angular App
       run: npm run build -- --output-path=dist --base-href=/
 
-    # 5. Meglévő fájlok törlése FTP-ről
+    # 8. Meglévő fájlok törlése FTP-ről
     - name: 🧹 Clear existing files from FTP
       run: |
         sudo apt-get update
@@ -37,7 +49,7 @@ jobs:
         mkdir -p empty
         lftp -e "set ftp:ssl-allow no; mirror -R --delete ./empty /; bye" -u "${{ secrets.ftp_username }},${{ secrets.ftp_password }}" ${{ secrets.ftp_host }}  
 
-    # 6. Új fájlok feltöltése FTP-re
+    # 9. Új fájlok feltöltése FTP-re
     - name: 📂 Sync files to FTP
       uses: SamKirkland/FTP-Deploy-Action@master
       with:
@@ -46,3 +58,4 @@ jobs:
         password: ${{ secrets.ftp_password }}
         local-dir: dist/browser/
         server-dir: /
+        
