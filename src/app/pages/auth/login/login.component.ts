@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from '../../../shared/shared.module';
-import { AuthService } from '../../../services/auth.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -12,6 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { AuthService } from '../../../services/auth/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -51,14 +51,15 @@ export class LoginComponent {
   onSubmit() {
     if (this.loginForm.valid) {
       const { email, password } = this.loginForm.value;
-      this.authService.login(email, password).subscribe({
+      this.authService.login(email, password).then((result) => {
+        this.router.navigate(['/dashboard']);
         next: () => {
           this.snackBar.open('Login successful!', 'Close', {
             duration: 3000,
             horizontalPosition: 'end',
             verticalPosition: 'top'
           });
-          this.router.navigate(['/dashboard']);
+          
         }
       });
     }

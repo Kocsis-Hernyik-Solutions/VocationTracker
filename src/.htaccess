@@ -1,0 +1,11 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # Ha a fájl vagy könyvtár létezik, szolgáljuk ki azt
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+
+  # Minden más kérést irányítsunk az index.html-re
+  RewriteRule ^ index.html [L]
+</IfModule>
