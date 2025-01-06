@@ -19,7 +19,7 @@ jobs:
     - name: 🛠️ Setup Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: 22  # Angular által támogatott verzió
+        node-version: 18  # Angular által támogatott verzió
 
     # 3. Angular függőségek telepítése
     - name: 📦 Install dependencies
