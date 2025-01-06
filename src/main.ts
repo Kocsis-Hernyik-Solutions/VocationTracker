@@ -7,6 +7,13 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { importProvidersFrom } from '@angular/core';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFireAuthModule } from '@angular/fire/compat/auth';
+import { environment } from './environments/environment';
+import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
+import { provideAuth, getAuth } from '@angular/fire/auth';
+import { provideFirestore, getFirestore } from '@angular/fire/firestore';
+import { AuthGuardService } from './app/services/auth/auth.guard.service';
 
 // AoT requires an exported function for factories
 export function createTranslateLoader(http: HttpClient) {
@@ -21,11 +28,13 @@ const routes: Routes = [
   },
   {
     path: 'profile',
-    loadComponent: () => import('./app/pages/profile/profile.component').then(m => m.ProfileComponent)
+    loadComponent: () => import('./app/pages/profile/profile.component').then(m => m.ProfileComponent),
+    canActivate: [AuthGuardService]
   },
   {
     path: 'dashboard',
-    loadComponent: () => import('./app/pages/dashboard/dashboard.component').then(m => m.DashboardComponent)
+    loadComponent: () => import('./app/pages/dashboard/dashboard.component').then(m => m.DashboardComponent),
+    canActivate: [AuthGuardService]
   },
   {
     path: 'registration',
@@ -49,7 +58,12 @@ bootstrapApplication(AppComponent, {
           useFactory: createTranslateLoader,
           deps: [HttpClient]
         }
-      })
-    )
+      }),
+      AngularFireModule.initializeApp(environment.firebase),
+      AngularFireAuthModule // Firebase Authentication modul
+    ),
+    provideFirebaseApp(() => initializeApp(environment.firebase)), // Firebase inicializáció
+    provideAuth(() => getAuth()), // Firebase Auth szolgáltatás
+    provideFirestore(() => getFirestore()), // Firestore szolgáltatás
   ]
 });

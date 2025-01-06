@@ -52,13 +52,14 @@ export class LoginComponent {
     if (this.loginForm.valid) {
       const { email, password } = this.loginForm.value;
       this.authService.login(email, password).then((result) => {
+        this.router.navigate(['/dashboard']);
         next: () => {
           this.snackBar.open('Login successful!', 'Close', {
             duration: 3000,
             horizontalPosition: 'end',
             verticalPosition: 'top'
           });
-          this.router.navigate(['/dashboard']);
+          
         }
       });
     }
