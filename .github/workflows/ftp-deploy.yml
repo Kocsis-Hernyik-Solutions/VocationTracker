@@ -23,7 +23,7 @@ jobs:
 
     # 3. Angular CLI downgradelése (ha szükséges)
     - name: 🛠️ Install Angular CLI
-      run: npm install -g @angular/cli@14  # Használj a downgradelt Angular verzióhoz megfelelő CLI-t
+      run: npm install -g @angular/cli  # Használj a downgradelt Angular verzióhoz megfelelő CLI-t
 
     # 4. NPM cache tisztítása
     - name: 🧹 Clean NPM cache
@@ -35,7 +35,7 @@ jobs:
 
     # 6. Angular build eszközök telepítése (ha szükséges)
     - name: 🔧 Install @angular-devkit/build-angular
-      run: npm install @angular-devkit/build-angular@14  # Downgradelt verzióhoz igazítva
+      run: npm install @angular-devkit/build-angular  # Downgradelt verzióhoz igazítva
 
     # 7. Angular alkalmazás buildelése
     - name: 🏗️ Build Angular App
@@ -58,4 +58,3 @@ jobs:
         password: ${{ secrets.ftp_password }}
         local-dir: dist/browser/
         server-dir: /
-        
