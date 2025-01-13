@@ -16,6 +16,12 @@
       <button class="primary-button" (click)="requestVacation()">
         {{ 'DASHBOARD.QUICK_ACCESS.REQUEST_VACATION' | translate }}
       </button>
+      <button class="primary-button" (click)="requestVacation()">
+        {{ 'DASHBOARD.CALENDAR.TITLE' | translate }}
+      </button>
+      <button class="primary-button" (click)="requestVacation()">
+        {{ 'DASHBOARD.CALENDAR.TEAM_VACATIONS' | translate }}
+      </button>
     </div>
     <div class="vacation-status">
       <div class="remaining-days">
@@ -29,7 +35,9 @@
             <span class="status {{request.status}}">{{request.status}}</span>
           </div>
         </div>
-        <a href="#" class="view-all">{{ 'DASHBOARD.QUICK_ACCESS.VIEW_ALL' | translate }}</a>
+        <button class="btn-primary" (click)="requestAllRequests()">
+          {{ 'DASHBOARD.QUICK_ACCESS.VIEW_ALL' | translate }}
+        </button>
       </div>
     </div>
   </section>

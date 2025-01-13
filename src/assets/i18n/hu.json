@@ -14,7 +14,8 @@
     "NAV": {
       "DASHBOARD": "Vezérlőpult",
       "PROFILE": "Profil",
-      "SETTINGS": "Beállítások"
+      "SETTINGS": "Beállítások",
+      "LOGOUT": "Kijelentkezés"
     },
     "ACTIONS": {
       "SAVE": "Mentés",
@@ -24,6 +25,28 @@
       "REQUEST": "Igénylés",
       "SUBMIT": "Beküldés"
     }
+  },
+  "CALENDAR": {
+    "LEGEND": {
+      "APPROVED": "Jóváhagyva",
+      "PENDING": "Függőben",
+      "REJECTED": "Elutasítva"
+    },
+    "BUTTONS": {
+      "TODAY": "Ma",
+      "MONTH": "Hónap"
+    },
+    "DAYS": {
+      "MONDAY": "Hétfő",
+      "TUESDAY": "Kedd",
+      "WEDNESDAY": "Szerda",
+      "THURSDAY": "Csütörtök",
+      "FRIDAY": "Péntek",
+      "SATURDAY": "Szombat",
+      "SUNDAY": "Vasárnap"
+    },
+    "TITLE": "Szabadság naptár",
+    "NO_EVENTS": "Nincsenek szabadság kérelmek"
   },
   "DASHBOARD": {
     "WELCOME": {
@@ -54,22 +77,22 @@
   },
   "ERROR": {
     "404": {
-      "TITLE": "404 - Oldal nem található",
-      "MESSAGE": "A keresett oldal nem található vagy nincs megfelelő jogosultsága.",
-      "SUBMESSAGE": "Kérjük ellenőrizze a megadott címet vagy térjen vissza a főoldalra.",
-      "BACK_BUTTON": "Vissza a főoldalra"
+      "TITLE": "404 - Az oldal nem található",
+      "MESSAGE": "A keresett oldal nem létezik vagy nincs jogosultságod a megtekintéséhez.",
+      "SUBMESSAGE": "Kérjük, ellenőrizd az URL-t vagy térj vissza a kezdőlapra.",
+      "BACK_BUTTON": "Vissza a kezdőlapra"
     },
     "500": {
-      "TITLE": "500 - Szerver Hiba",
-      "MESSAGE": "Sajnáljuk, de valami hiba történt a szerveren.",
-      "SUBMESSAGE": "Kérjük próbálja újra később.",
-      "BACK_BUTTON": "Vissza a főoldalra"
+      "TITLE": "500 - Szerverhiba",
+      "MESSAGE": "Sajnáljuk, valami hiba történt a szerverünkön.",
+      "SUBMESSAGE": "Kérjük, próbáld újra később.",
+      "BACK_BUTTON": "Vissza a kezdőlapra"
     }
   },
   "THEME": {
     "LIGHT": "Világos mód",
     "DARK": "Sötét mód",
-    "TOGGLE": "Téma Váltás"
+    "TOGGLE": "Téma váltása"
   },
   "PROFILE": {
     "TITLE": "Profil",
@@ -77,10 +100,10 @@
     "FORM": {
       "NAME": "Teljes név",
       "NAME_PLACEHOLDER": "Add meg a teljes neved",
-      "EMAIL": "Email cím",
+      "EMAIL": "Email",
       "EMAIL_PLACEHOLDER": "Add meg az email címed",
-      "POSITION": "Munkakör",
-      "POSITION_PLACEHOLDER": "Add meg a munkaköröd",
+      "POSITION": "Pozíció",
+      "POSITION_PLACEHOLDER": "Add meg a munkakörödét",
       "DEPARTMENT": "Részleg",
       "DEPARTMENT_PLACEHOLDER": "Add meg a részleged"
     },
@@ -89,7 +112,7 @@
       "CANCEL": "Mégse"
     },
     "ERRORS": {
-      "REQUIRED": "Ez a mező kötelező!"
+      "REQUIRED": "Ez a mező kötelező"
     }
   },
   "FOOTER": {
@@ -101,7 +124,13 @@
     "TERMS": "Feltételek"
   },
   "COOKIE": {
-    "MESSAGE": "Ez a weboldal cookie-kat használ a jobb felhasználói élmény érdekében.",
+    "MESSAGE": "Ez a weboldal sütiket használ a jobb felhasználói élmény érdekében.",
     "ACCEPT": "Elfogadom"
+  },
+  "COMMON": {
+    "BACK": "Vissza",
+    "SAVE_CHANGES": "Mentés",
+    "CANCEL": "Mégse",
+    "DELETE": "Törlés"
   }
 }

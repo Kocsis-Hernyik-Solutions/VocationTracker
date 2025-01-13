@@ -4,6 +4,8 @@ import { TranslateModule } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { CalendarComponent } from '../../components/calendar/calendar.component';
 import { TeamCalendarComponent } from '../../components/team-calendar/team-calendar.component';
+import { AuthService } from '../../services/auth/auth.service';
+import { UserService } from '../../services/firestore/user.service';
 
 interface VacationRequest {
   startDate: Date;
@@ -30,12 +32,12 @@ interface Notification {
   ]
 })
 export class DashboardComponent implements OnInit {
-  userName: string = 'John Doe'; // TODO: Get from auth service
+  userName: string = '';
   currentTime: Date = new Date();
   currentDate: Date = new Date();
   remainingDays: number = 10;
   isDarkMode: boolean;
-  
+
   pendingRequests: VacationRequest[] = [
     {
       startDate: new Date('2024-01-15'),
@@ -62,18 +64,19 @@ export class DashboardComponent implements OnInit {
     }
   ];
 
-  constructor(private router: Router) {
-    // Ellenőrizzük a mentett téma beállítást vagy az operációs rendszer beállítását
+  constructor(
+    private authService: AuthService,
+    private userService: UserService,
+    private router: Router
+  ) {
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme) {
       this.isDarkMode = savedTheme === 'dark';
     } else {
-      // Ha nincs mentett beállítás, ellenőrizzük az OS beállítást
       this.isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
     }
     this.updateTheme();
 
-    // Figyeljük az OS téma változását
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
       if (!localStorage.getItem('theme')) {
         this.isDarkMode = e.matches;
@@ -83,6 +86,16 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.authService.currentUser.subscribe(async user => {
+      if (user) {
+        const userData = await this.userService.getById(user.uid);
+        if (userData) {
+          this.userName = userData.name || user.email || '';
+        } else {
+          this.userName = user.email || '';
+        }
+      }
+    });
     this.updateDateTime();
     setInterval(() => this.updateDateTime(), 60000); // Update every minute
   }
@@ -96,6 +109,10 @@ export class DashboardComponent implements OnInit {
     this.router.navigate(['/vacation/request']);
   }
 
+  requestAllRequests() {
+    this.router.navigate(['/all-requests']);
+  }
+
   toggleTheme() {
     this.isDarkMode = !this.isDarkMode;
     this.updateTheme();
@@ -104,7 +121,6 @@ export class DashboardComponent implements OnInit {
 
   private updateTheme() {
     document.documentElement.setAttribute('data-theme', this.isDarkMode ? 'dark' : 'light');
-    // Frissítjük a meta theme-color-t is a modern böngészőkhöz
     const metaThemeColor = document.querySelector('meta[name="theme-color"]');
     if (metaThemeColor) {
       metaThemeColor.setAttribute('content', this.isDarkMode ? '#121212' : '#FFFFFF');

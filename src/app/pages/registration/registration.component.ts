@@ -14,27 +14,27 @@ import { UserService } from '../../services/firestore/user.service';
 import { AuthService } from '../../services/auth/auth.service';
 import { User } from '../../shared/models/User';
 
-
 @Component({
   selector: 'app-registration',
   standalone: true,
   imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        RouterModule,
-        TranslateModule,
-        MatCardModule,
-        MatButtonModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatIconModule,
-        MatSnackBarModule
+    CommonModule,
+    ReactiveFormsModule,
+    RouterModule,
+    TranslateModule,
+    MatCardModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatIconModule,
+    MatSnackBarModule
   ],
   templateUrl: './registration.component.html',
-  styleUrl: './registration.component.css'
+  styleUrls: ['./registration.component.css']
 })
-export class RegistrationComponent implements OnInit{
+export class RegistrationComponent implements OnInit {
   signupForm: FormGroup;
+  hidePassword = true;
 
   constructor(
     private fb: FormBuilder,
@@ -48,6 +48,7 @@ export class RegistrationComponent implements OnInit{
     this.signupForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(2)]],
       email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
       position: ['', Validators.required],
       department: ['', Validators.required]
     });
@@ -55,10 +56,9 @@ export class RegistrationComponent implements OnInit{
 
   ngOnInit(): void {
     try {
-      // Potential initialization logic
-      console.log('Profile Component Initialized');
+      console.log('Registration Component Initialized');
     } catch (error) {
-      console.error('Profile Initialization Error', error);
+      console.error('Registration Initialization Error', error);
       this.errorHandler.handleError(error);
     }
   }
@@ -67,7 +67,6 @@ export class RegistrationComponent implements OnInit{
     try {
       Object.values(formGroup.controls).forEach(control => {
         control.markAsTouched();
-
         if (control instanceof FormGroup) {
           this.markFormGroupTouched(control);
         }
@@ -82,40 +81,80 @@ export class RegistrationComponent implements OnInit{
     try {
       const control = this.signupForm.get(controlName);
       if (control?.hasError('required')) {
-        return 'PROFILE.ERRORS.REQUIRED';
+        return 'This field is required';
       }
       if (control?.hasError('email')) {
-        return 'PROFILE.ERRORS.EMAIL';
+        return 'Please enter a valid email address';
       }
       if (control?.hasError('minlength')) {
-        return 'PROFILE.ERRORS.MIN_LENGTH';
+        return controlName === 'password' 
+          ? 'Password must be at least 6 characters long'
+          : 'Must be at least 2 characters long';
       }
       return '';
     } catch (error) {
       console.error('Error Message Generation Error', error);
       this.errorHandler.handleError(error);
-      return 'UNKNOWN_ERROR';
+      return 'An error occurred';
     }
   }
 
-  signup() {
-    this.authService.signupUser(this.signupForm.get('email')?.value, this.signupForm.get('password')?.value).then((cred) => {
-      console.log(cred);
-      const user: User ={
-        id: cred.user.uid as string,
-        email: this.signupForm.get('email')?.value,
-        name: this.signupForm.get('name')?.value,
+  async signup() {
+    if (this.signupForm.valid) {
+      try {
+        const { email, password, name, position, department } = this.signupForm.value;
+        
+        // First create the user in Firebase Auth
+        const credential = await this.authService.signupUser(email, password);
+        
+        if (credential && credential.user) {
+          // Then create the user document in Firestore
+          const user: User = {
+            id: credential.user.uid,
+            email: email,
+            name: name,
+            position: position,
+            department: department
+          };
+          
+          await this.userService.create(user);
+          
+          // Show success message
+          this.snackBar.open('Registration successful! Please log in.', 'Close', {
+            duration: 3000,
+            horizontalPosition: 'center',
+            verticalPosition: 'bottom'
+          });
+
+          // Sign out the user (since we want them to log in explicitly)
+          await this.authService.logout();
+          
+          // Navigate to login
+          this.router.navigate(['/login']);
+        }
+      } catch (error: any) {
+        console.error('Registration error:', error);
+        let errorMessage = 'Registration failed';
+        
+        // Handle specific Firebase Auth errors
+        if (error.code === 'auth/email-already-in-use') {
+          errorMessage = 'This email is already registered. Please use a different email or try logging in.';
+        } else if (error.code === 'auth/invalid-email') {
+          errorMessage = 'Please enter a valid email address.';
+        } else if (error.code === 'auth/operation-not-allowed') {
+          errorMessage = 'Email/password registration is not enabled. Please contact support.';
+        } else if (error.code === 'auth/weak-password') {
+          errorMessage = 'Please choose a stronger password.';
+        }
+
+        this.snackBar.open(errorMessage, 'Close', {
+          duration: 5000,
+          horizontalPosition: 'center',
+          verticalPosition: 'bottom'
+        });
       }
-      this.userService.create(user).then(_ => {
-        console.log('hozzáadás sikeres');
-        this.router.navigate(['/profile']); 
-      }).catch((error: any) => {
-        console.log(error);
-      })
-    }).catch(error =>{
-      console.log(error);
-    });
-
+    } else {
+      this.markFormGroupTouched(this.signupForm);
+    }
   }
-
 }

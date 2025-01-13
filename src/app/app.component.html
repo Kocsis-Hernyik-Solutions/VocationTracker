@@ -1,9 +1,16 @@
-<div class="app-container">
-  <app-menu>
+<div class="app-container" [class.no-menu]="!authService.isLoggedIn()">
+  <ng-container *ngIf="authService.isLoggedIn(); else loginContent">
+    <app-menu>
+      <div class="content-wrapper">
+        <router-outlet></router-outlet>
+        <app-footer></app-footer>
+      </div>
+    </app-menu>
+  </ng-container>
+  <ng-template #loginContent>
     <div class="content-wrapper">
       <router-outlet></router-outlet>
-      <app-footer></app-footer>
     </div>
-  </app-menu>
+  </ng-template>
 </div>
 <app-cookie-consent></app-cookie-consent>
