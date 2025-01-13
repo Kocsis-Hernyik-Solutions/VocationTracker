@@ -1,6 +1,11 @@
 import { AngularFirestore } from "@angular/fire/compat/firestore";
 import { Department } from "../../shared/models/Department";
 import { map } from "rxjs";
+import { Injectable } from "@angular/core";
+
+@Injectable({
+  providedIn: 'root', // Globálisan elérhető
+})
 
 export class DepartmentService {
     collectionNames = 'Department';

@@ -65,7 +65,7 @@ export class ProfileComponent implements OnInit {
           this.profileForm.patchValue({
             name: this.currentUser.name,
             email: this.currentUser.email,
-            position: this.currentUser.position || '',
+            position: this.currentUser.post || '',
             department: this.currentUser.department || ''
           });
         }

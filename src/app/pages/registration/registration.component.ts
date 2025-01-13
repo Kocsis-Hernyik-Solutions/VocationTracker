@@ -113,8 +113,12 @@ export class RegistrationComponent implements OnInit {
             id: credential.user.uid,
             email: email,
             name: name,
-            position: position,
-            department: department
+            post: position,
+            department: department,
+            avaiable_days_off: 0,
+            taken_days: 0,
+            leader: false,
+            admin: false
           };
           
           await this.userService.create(user);

@@ -40,6 +40,10 @@ const routes: Routes = [
     path: 'registration',
     loadComponent: () => import('./app/pages/registration/registration.component').then(m => m.RegistrationComponent)
   },
+  {
+    path: 'department',
+    loadComponent: () => import('./app/pages/department/department.component').then(m => m.DepartmentComponent)
+  },
   { path: '404', loadComponent: () => import('./app/pages/error/error404/error404.component').then(m => m.Error404Component) },
   { path: '500', loadComponent: () => import('./app/pages/error/error500/error500.component').then(m => m.Error500Component) },
   { path: '**', redirectTo: '404' }
