@@ -1,1 +1,18 @@
-<p>calendar works!</p>
+<div class="calendar-container">
+  <div class="calendar-legend">
+    <div class="legend-item">
+      <span class="legend-color approved"></span>
+      <span class="legend-label">{{ 'CALENDAR.LEGEND.APPROVED' | translate }}</span>
+    </div>
+    <div class="legend-item">
+      <span class="legend-color pending"></span>
+      <span class="legend-label">{{ 'CALENDAR.LEGEND.PENDING' | translate }}</span>
+    </div>
+    <div class="legend-item">
+      <span class="legend-color rejected"></span>
+      <span class="legend-label">{{ 'CALENDAR.LEGEND.REJECTED' | translate }}</span>
+    </div>
+  </div>
+  
+  <full-calendar [options]="calendarOptions"></full-calendar>
+</div>

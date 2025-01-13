@@ -18,6 +18,15 @@
       "EDIT": "Edit"
     }
   },
+  "CALENDAR": {
+    "LEGEND": {
+      "APPROVED": "Approved",
+      "PENDING": "Pending",
+      "REJECTED": "Rejected"
+    },
+    "TITLE": "Vacation Calendar",
+    "NO_EVENTS": "No vacation requests found"
+  },
   "ERROR": {
     "404": {
       "TITLE": "404 - Page Not Found",

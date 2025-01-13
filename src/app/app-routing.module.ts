@@ -3,17 +3,19 @@ import { RouterModule, Routes } from '@angular/router';
 import { Error404Component } from './pages/error/error404/error404.component';
 import { Error500Component } from './pages/error/error500/error500.component';
 import { AuthGuardService } from './services/auth/auth.guard.service';
+import { NonAuthGuardService } from './services/auth/non-auth.guard.service';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
   {
     path: 'login',
-    loadChildren: () => import('./pages/auth/login/login.module').then(m => m.LoginModule)
+    loadChildren: () => import('./pages/auth/login/login.module').then(m => m.LoginModule),
+    canActivate: [NonAuthGuardService]
   },
   {
-    path: 'profile',
-    loadChildren: () => import('./pages/profile/profile.module').then(m => m.ProfileModule),
-    canActivate: [AuthGuardService]
+    path: 'registration',
+    loadChildren: () => import('./pages/registration/registration.module').then(m => m.RegistrationModule),
+    canActivate: [NonAuthGuardService]
   },
   {
     path: 'dashboard',
@@ -21,11 +23,17 @@ const routes: Routes = [
     canActivate: [AuthGuardService]
   },
   {
-    path: 'registration',
-    loadChildren: () => import('./pages/registration/registration.module').then(m => m.RegistrationModule)
+    path: 'profile',
+    loadChildren: () => import('./pages/profile/profile.module').then(m => m.ProfileModule),
+    canActivate: [AuthGuardService]
   },
-  { path: '500', component: Error500Component },
+  {
+    path: 'all-requests',
+    loadChildren: () => import('./pages/all-requests/all-requests.module').then(m => m.AllRequestsModule),
+    canActivate: [AuthGuardService]
+  },
   { path: '404', component: Error404Component },
+  { path: '500', component: Error500Component },
   { path: '**', redirectTo: '404' }
 ];
 
