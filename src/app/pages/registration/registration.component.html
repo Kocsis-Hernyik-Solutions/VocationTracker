@@ -1,66 +1,66 @@
-<div class="profile-container">
-    <mat-card class="profile-card">
-      <mat-card-header>
-        <div mat-card-avatar class="profile-avatar">
-          <mat-icon>account_circle</mat-icon>
-        </div>
-        <mat-card-title>{{ 'PROFILE.TITLE' | translate }}</mat-card-title>
-        <mat-card-subtitle>{{ 'PROFILE.SUBTITLE' | translate }}</mat-card-subtitle>
-      </mat-card-header>
-  
-      <mat-card-content>
-        <form [formGroup]="signupForm" (ngSubmit)="signup()" class="profile-form">
-          <mat-form-field appearance="outline">
-            <mat-label>{{ 'PROFILE.FORM.NAME' | translate }}</mat-label>
-            <input matInput formControlName="name" placeholder="{{ 'PROFILE.FORM.NAME_PLACEHOLDER' | translate }}">
-            <mat-icon matSuffix>person</mat-icon>
-            <mat-error *ngIf="signupForm.get('name')?.invalid && signupForm.get('name')?.touched">
-              {{ getErrorMessage('name') | translate }}
-            </mat-error>
-          </mat-form-field>
-  
-          <mat-form-field appearance="outline">
-            <mat-label>{{ 'PROFILE.FORM.EMAIL' | translate }}</mat-label>
-            <input matInput formControlName="email" placeholder="{{ 'PROFILE.FORM.EMAIL_PLACEHOLDER' | translate }}" type="email">
-            <mat-icon matSuffix>email</mat-icon>
-            <mat-error *ngIf="signupForm.get('email')?.invalid && signupForm.get('email')?.touched">
-              {{ getErrorMessage('email') | translate }}
-            </mat-error>
-          </mat-form-field>
-  
-          <mat-form-field appearance="outline">
-            <mat-label>{{ 'PROFILE.FORM.POSITION' | translate }}</mat-label>
-            <input matInput formControlName="position" placeholder="{{ 'PROFILE.FORM.POSITION_PLACEHOLDER' | translate }}">
-            <mat-icon matSuffix>work</mat-icon>
-            <mat-error *ngIf="signupForm.get('position')?.invalid && signupForm.get('position')?.touched">
-              {{ getErrorMessage('position') | translate }}
-            </mat-error>
-          </mat-form-field>
-  
-          <mat-form-field appearance="outline">
-            <mat-label>{{ 'PROFILE.FORM.DEPARTMENT' | translate }}</mat-label>
-            <input matInput formControlName="department" placeholder="{{ 'PROFILE.FORM.DEPARTMENT_PLACEHOLDER' | translate }}">
-            <mat-icon matSuffix>business</mat-icon>
-            <mat-error *ngIf="signupForm.get('department')?.invalid && signupForm.get('department')?.touched">
-              {{ getErrorMessage('department') | translate }}
-            </mat-error>
-          </mat-form-field>
+<div class="login-container">
+  <mat-card class="login-card">
+    <mat-card-header>
+      <mat-card-title>Create Account</mat-card-title>
+      <mat-card-subtitle>Sign up to get started</mat-card-subtitle>
+    </mat-card-header>
 
-          <mat-form-field appearance="outline">
-            <mat-label>{{ 'PROFILE.FORM.PASSWORD' | translate }}</mat-label>
-            <input matInput  type="password" formControlName="PASSWORD" placeholder="{{ 'PROFILE.FORM.PASSWORD_PLACEHOLDER' | translate }}">
-            <mat-icon matSuffix>password</mat-icon>
-            <mat-error *ngIf="signupForm.get('PASSWORD')?.invalid && signupForm.get('PASSWORD')?.touched">
-              {{ getErrorMessage('PASSWORD') | translate }}
-            </mat-error>
-          </mat-form-field>
-        </form>
-        <mat-card-actions align="end">
-          <button mat-raised-button color="primary" type="submit" [disabled]="signupForm.invalid">
-            {{ 'PROFILE.ACTIONS.SAVE' | translate }}
+    <mat-card-content>
+      <form [formGroup]="signupForm" (ngSubmit)="signup()" class="login-form">
+        <mat-form-field appearance="outline">
+          <mat-label>Name</mat-label>
+          <input matInput formControlName="name" placeholder="Enter your name">
+          <mat-icon matSuffix>person</mat-icon>
+          <mat-error *ngIf="signupForm.get('name')?.invalid && signupForm.get('name')?.touched">
+            {{ getErrorMessage('name') }}
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Email</mat-label>
+          <input matInput type="email" formControlName="email" placeholder="Enter your email">
+          <mat-icon matSuffix>email</mat-icon>
+          <mat-error *ngIf="signupForm.get('email')?.invalid && signupForm.get('email')?.touched">
+            {{ getErrorMessage('email') }}
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Password</mat-label>
+          <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password" placeholder="Enter your password">
+          <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" type="button" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
+            <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
           </button>
-        </mat-card-actions>
-      </mat-card-content>
-    </mat-card>
-  </div>
-  
+          <mat-error *ngIf="signupForm.get('password')?.invalid && signupForm.get('password')?.touched">
+            {{ getErrorMessage('password') }}
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Position</mat-label>
+          <input matInput formControlName="position" placeholder="Enter your position">
+          <mat-icon matSuffix>work</mat-icon>
+          <mat-error *ngIf="signupForm.get('position')?.invalid && signupForm.get('position')?.touched">
+            {{ getErrorMessage('position') }}
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Department</mat-label>
+          <input matInput formControlName="department" placeholder="Enter your department">
+          <mat-icon matSuffix>business</mat-icon>
+          <mat-error *ngIf="signupForm.get('department')?.invalid && signupForm.get('department')?.touched">
+            {{ getErrorMessage('department') }}
+          </mat-error>
+        </mat-form-field>
+
+        <div class="form-actions">
+          <button mat-raised-button color="primary" type="submit" [disabled]="!signupForm.valid">
+            <mat-icon>person_add</mat-icon>
+            <span>Sign Up</span>
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

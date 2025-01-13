@@ -36,14 +36,6 @@
           <mat-icon matListItemIcon>person</mat-icon>
           <span matListItemTitle>{{ 'APP.NAV.PROFILE' | translate }}</span>
         </a>
-        <a mat-list-item routerLink="/settings">
-          <mat-icon matListItemIcon>settings</mat-icon>
-          <span matListItemTitle>{{ 'APP.NAV.SETTINGS' | translate }}</span>
-        </a>
-        <a mat-list-item routerLink="/registration">
-          <mat-icon matListItemIcon>registration</mat-icon>
-          <span matListItemTitle>{{ 'APP.NAV.REGISTRATION' | translate }}</span>
-        </a>
       </mat-nav-list>
     </mat-sidenav>
 
@@ -69,11 +61,15 @@
   <mat-menu #profileMenu="matMenu">
     <button mat-menu-item routerLink="/profile">
       <mat-icon>person</mat-icon>
-      <span>{{ 'APP.NAV.PROFILE' | translate }}</span>
+      <span>{{ userName || ('APP.NAV.PROFILE' | translate) }}</span>
     </button>
     <button mat-menu-item routerLink="/settings">
       <mat-icon>settings</mat-icon>
       <span>{{ 'APP.NAV.SETTINGS' | translate }}</span>
+    </button>
+    <button mat-menu-item (click)="logout()" aria-label="Logout">
+      <mat-icon>logout</mat-icon>
+      <span>{{ 'APP.NAV.LOGOUT' | translate }}</span>
     </button>
   </mat-menu>
 </div>

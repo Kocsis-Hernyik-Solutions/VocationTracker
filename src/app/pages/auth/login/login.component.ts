@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from '../../../shared/shared.module';
@@ -9,8 +9,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
 import { AuthService } from '../../../services/auth/auth.service';
 
 @Component({
@@ -21,20 +19,18 @@ import { AuthService } from '../../../services/auth/auth.service';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    SharedModule,
+    RouterModule,
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
     MatIconModule,
     MatCardModule,
-    MatDatepickerModule,
-    MatNativeDateModule
+    SharedModule
   ]
 })
 export class LoginComponent {
   loginForm: FormGroup;
   hidePassword = true;
-  selectedDate = new Date();
 
   constructor(
     private fb: FormBuilder,
@@ -48,33 +44,47 @@ export class LoginComponent {
     });
   }
 
-  onSubmit() {
-    if (this.loginForm.valid) {
-      const { email, password } = this.loginForm.value;
-      this.authService.login(email, password).then((result) => {
-        this.router.navigate(['/dashboard']);
-        next: () => {
-          this.snackBar.open('Login successful!', 'Close', {
-            duration: 3000,
-            horizontalPosition: 'end',
-            verticalPosition: 'top'
-          });
-          
-        }
-      });
-    }
-  }
-
   getErrorMessage(field: string): string {
-    if (this.loginForm.get(field)?.hasError('required')) {
-      return 'This field is required';
+    const control = this.loginForm.get(field);
+    if (control?.hasError('required')) {
+      return `${field.charAt(0).toUpperCase() + field.slice(1)} is required`;
     }
-    if (field === 'email' && this.loginForm.get('email')?.hasError('email')) {
+    if (control?.hasError('email')) {
       return 'Please enter a valid email address';
     }
-    if (field === 'password' && this.loginForm.get('password')?.hasError('minlength')) {
+    if (control?.hasError('minlength')) {
       return 'Password must be at least 6 characters long';
     }
     return '';
+  }
+
+  onSubmit() {
+    if (this.loginForm.valid) {
+      const { email, password } = this.loginForm.value;
+      this.authService.login(email, password)
+        .then(() => {
+          this.router.navigate(['/dashboard']);
+        })
+        .catch(error => {
+          let errorMessage = 'Login failed';
+          
+          // Handle specific Firebase Auth errors
+          if (error.code === 'auth/invalid-credential') {
+            errorMessage = 'Invalid email or password';
+          } else if (error.code === 'auth/user-disabled') {
+            errorMessage = 'This account has been disabled';
+          } else if (error.code === 'auth/user-not-found') {
+            errorMessage = 'No account found with this email';
+          } else if (error.code === 'auth/wrong-password') {
+            errorMessage = 'Invalid email or password';
+          }
+
+          this.snackBar.open(errorMessage, 'Close', {
+            duration: 5000,
+            horizontalPosition: 'center',
+            verticalPosition: 'bottom'
+          });
+        });
+    }
   }
 }
