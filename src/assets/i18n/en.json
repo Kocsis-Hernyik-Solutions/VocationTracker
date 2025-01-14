@@ -1,50 +1,29 @@
 {
-  "COMMON": {
-    "LOADING": "Loading..."
-  },
   "APP": {
-    "TITLE": "Vocation Tracker",
+    "TITLE": "Vacation Tracker",
     "MENU": {
       "HOME": "Home",
       "CALENDAR": "Calendar",
-      "STATISTICS": "Statistics"
+      "STATISTICS": "Statistics",
+      "VACATION": "Vacations",
+      "SCHEDULE": "Work Schedule",
+      "PERSONAL": "Personal Data",
+      "SETTINGS": "Settings",
+      "HELP": "Help"
     },
     "NAV": {
       "DASHBOARD": "Dashboard",
       "PROFILE": "Profile",
-      "SETTINGS": "Settings"
+      "SETTINGS": "Settings",
+      "LOGOUT": "Logout"
     },
     "ACTIONS": {
       "SAVE": "Save",
       "CANCEL": "Cancel",
       "DELETE": "Delete",
-      "EDIT": "Edit"
-    }
-  },
-  "VACATION": {
-    "REQUEST": {
-      "TITLE": "Request Vacation",
-      "START_DATE": "Start Date",
-      "END_DATE": "End Date",
-      "TYPE": "Vacation Type",
-      "REASON": "Reason",
-      "SUBMIT": "Submit Request"
-    },
-    "TYPES": {
-      "ANNUAL": "Annual Leave",
-      "SICK": "Sick Leave",
-      "UNPAID": "Unpaid Leave"
-    },
-    "ERRORS": {
-      "START_DATE_REQUIRED": "Start date is required",
-      "END_DATE_REQUIRED": "End date is required",
-      "TYPE_REQUIRED": "Vacation type is required",
-      "REASON_REQUIRED": "Reason is required",
-      "REASON_MIN_LENGTH": "Reason must be at least 10 characters"
-    },
-    "MESSAGES": {
-      "REQUEST_SUBMITTED": "Vacation request submitted successfully",
-      "REQUEST_ERROR": "Error submitting vacation request"
+      "EDIT": "Edit",
+      "REQUEST": "Request",
+      "SUBMIT": "Submit"
     }
   },
   "CALENDAR": {
@@ -53,8 +32,49 @@
       "PENDING": "Pending",
       "REJECTED": "Rejected"
     },
+    "BUTTONS": {
+      "TODAY": "Today",
+      "MONTH": "Month",
+      "LIST": "List"
+    },
+    "DAYS": {
+      "MONDAY": "Monday",
+      "TUESDAY": "Tuesday",
+      "WEDNESDAY": "Wednesday",
+      "THURSDAY": "Thursday",
+      "FRIDAY": "Friday",
+      "SATURDAY": "Saturday",
+      "SUNDAY": "Sunday"
+    },
     "TITLE": "Vacation Calendar",
     "NO_EVENTS": "No vacation requests found"
+  },
+  "DASHBOARD": {
+    "WELCOME": {
+      "GREETING": "Welcome, {{name}}!",
+      "TIME": "{{time}}",
+      "DATE": "{{date}}"
+    },
+    "QUICK_ACCESS": {
+      "REQUEST_VACATION": "Request Vacation",
+      "REMAINING_DAYS": "{{days}} vacation days remaining",
+      "PENDING_REQUESTS": "Pending Requests",
+      "VIEW_ALL": "View All"
+    },
+    "CALENDAR": {
+      "TITLE": "Calendar",
+      "TEAM_VACATIONS": "Team Vacations",
+      "HOLIDAYS": "Holidays",
+      "EVENTS": "Events"
+    },
+    "NOTIFICATIONS": {
+      "TITLE": "Notifications",
+      "REQUEST_APPROVED": "Your vacation request has been approved",
+      "REQUEST_REJECTED": "Your vacation request has been rejected",
+      "REMINDER": "Reminder: Submit your annual vacation plan!",
+      "DEADLINE": "Important deadline: {{date}}",
+      "NO_NOTIFICATIONS": "No new notifications"
+    }
   },
   "ERROR": {
     "404": {
@@ -97,12 +117,48 @@
     }
   },
   "FOOTER": {
-    "COPYRIGHT": "Vocation Tracker. All rights reserved.",
+    "COPYRIGHT": "Vacation Tracker. All rights reserved.",
     "CONTACT": "Contact",
-    "VERSION": "Version"
+    "VERSION": "Version",
+    "ABOUT": "About",
+    "PRIVACY": "Privacy",
+    "TERMS": "Terms"
   },
   "COOKIE": {
-    "MESSAGE": "This website uses cookies to ensure you get the best experience.",
+    "MESSAGE": "This website uses cookies to enhance your experience.",
     "ACCEPT": "Accept"
+  },
+  "COMMON": {
+    "LOADING": "Loading...",
+    "BACK": "Back",
+    "SAVE_CHANGES": "Save",
+    "CANCEL": "Cancel",
+    "DELETE": "Delete"
+  },
+  "VACATION": {
+    "REQUEST": {
+      "TITLE": "Request Vacation",
+      "START_DATE": "Start Date",
+      "END_DATE": "End Date",
+      "TYPE": "Vacation Type",
+      "REASON": "Reason",
+      "SUBMIT": "Submit Request"
+    },
+    "TYPES": {
+      "ANNUAL": "Normal Leave",
+      "SICK": "Sick Leave",
+      "UNPAID": "Unpaid Leave"
+    },
+    "ERRORS": {
+      "START_DATE_REQUIRED": "Start date is required",
+      "END_DATE_REQUIRED": "End date is required",
+      "TYPE_REQUIRED": "Vacation type is required",
+      "REASON_REQUIRED": "Reason is required",
+      "REASON_MIN_LENGTH": "Reason must be at least 10 characters"
+    },
+    "MESSAGES": {
+      "REQUEST_SUBMITTED": "Vacation request submitted successfully",
+      "REQUEST_ERROR": "Error submitting vacation request"
+    }
   }
 }

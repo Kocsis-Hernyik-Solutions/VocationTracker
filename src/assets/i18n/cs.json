@@ -4,38 +4,96 @@
     "MENU": {
       "HOME": "Domů",
       "CALENDAR": "Kalendář",
-      "STATISTICS": "Statistiky"
+      "STATISTICS": "Statistiky",
+      "VACATION": "Dovolená",
+      "SCHEDULE": "Pracovní Rozvrh",
+      "PERSONAL": "Osobní Údaje",
+      "SETTINGS": "Nastavení",
+      "HELP": "Nápověda"
     },
     "NAV": {
       "DASHBOARD": "Přehled",
       "PROFILE": "Profil",
-      "SETTINGS": "Nastavení"
+      "SETTINGS": "Nastavení",
+      "LOGOUT": "Odhlásit"
     },
     "ACTIONS": {
       "SAVE": "Uložit",
       "CANCEL": "Zrušit",
       "DELETE": "Smazat",
-      "EDIT": "Upravit"
+      "EDIT": "Upravit",
+      "REQUEST": "Požádat",
+      "SUBMIT": "Odeslat"
+    }
+  },
+  "CALENDAR": {
+    "LEGEND": {
+      "APPROVED": "Schváleno",
+      "PENDING": "Čeká na schválení",
+      "REJECTED": "Zamítnuto"
+    },
+    "BUTTONS": {
+      "TODAY": "Dnes",
+      "MONTH": "Měsíc",
+      "LIST": "Seznam"
+    },
+    "DAYS": {
+      "MONDAY": "Pondělí",
+      "TUESDAY": "Úterý",
+      "WEDNESDAY": "Středa",
+      "THURSDAY": "Čtvrtek",
+      "FRIDAY": "Pátek",
+      "SATURDAY": "Sobota",
+      "SUNDAY": "Neděle"
+    },
+    "TITLE": "Kalendář dovolených",
+    "NO_EVENTS": "Žádné žádosti o dovolenou"
+  },
+  "DASHBOARD": {
+    "WELCOME": {
+      "GREETING": "Vítejte, {{name}}!",
+      "TIME": "{{time}}",
+      "DATE": "{{date}}"
+    },
+    "QUICK_ACCESS": {
+      "REQUEST_VACATION": "Požádat o dovolenou",
+      "REMAINING_DAYS": "Zbývá {{days}} dní dovolené",
+      "PENDING_REQUESTS": "Čekající žádosti",
+      "VIEW_ALL": "Zobrazit vše"
+    },
+    "CALENDAR": {
+      "TITLE": "Kalendář",
+      "TEAM_VACATIONS": "Dovolené týmu",
+      "HOLIDAYS": "Svátky",
+      "EVENTS": "Události"
+    },
+    "NOTIFICATIONS": {
+      "TITLE": "Oznámení",
+      "REQUEST_APPROVED": "Vaše žádost o dovolenou byla schválena",
+      "REQUEST_REJECTED": "Vaše žádost o dovolenou byla zamítnuta",
+      "REMINDER": "Připomínka: Předložte svůj roční plán dovolené!",
+      "DEADLINE": "Důležitý termín: {{date}}",
+      "NO_NOTIFICATIONS": "Žádná nová oznámení"
     }
   },
   "ERROR": {
     "404": {
-      "TITLE": "404 - Nenalezeno",
-      "MESSAGE": "Str&aacute;na, kterou hled&aacute;te neexistuje nebo nem&aacute;te pr&aacute;va k n&aacute;mu.",
-      "SUBMESSAGE": "Zkontrolujte URL nebo vratte se na domovskou str&aacute;nku.",
-      "BACK_BUTTON": "Vratit se na domovskou str&aacute;nku"
+      "TITLE": "404 - Stránka nenalezena",
+      "MESSAGE": "Stránka, kterou hledáte, neexistuje nebo k ní nemáte přístup.",
+      "SUBMESSAGE": "Zkontrolujte URL nebo se vraťte na domovskou stránku.",
+      "BACK_BUTTON": "Zpět na domovskou stránku"
     },
     "500": {
-      "TITLE": "500 - Serverová chyba",
-      "MESSAGE": "Z&aacute;vazn&aacute; chyba na serveru.",
-      "SUBMESSAGE": "Zkontrolujte URL nebo vratte se na domovskou str&aacute;nku.",
-      "BACK_BUTTON": "Vratit se na domovskou str&aacute;nku"
+      "TITLE": "500 - Chyba serveru",
+      "MESSAGE": "Omlouváme se, na serveru došlo k chybě.",
+      "SUBMESSAGE": "Zkuste to prosím později.",
+      "BACK_BUTTON": "Zpět na domovskou stránku"
     }
   },
   "THEME": {
-    "LIGHT": "Světlý Režim",
-    "DARK": "Tmavý Režim",
-    "TOGGLE": "Přepnout Režim"
+    "LIGHT": "Světlý režim",
+    "DARK": "Tmavý režim",
+    "TOGGLE": "Přepnout režim"
   },
   "PROFILE": {
     "TITLE": "Profil",
@@ -61,10 +119,46 @@
   "FOOTER": {
     "COPYRIGHT": "Sledování dovolené. Všechna práva vyhrazena.",
     "CONTACT": "Kontakt",
-    "VERSION": "Verze"
+    "VERSION": "Verze",
+    "ABOUT": "O nás",
+    "PRIVACY": "Soukromí",
+    "TERMS": "Podmínky"
   },
   "COOKIE": {
     "MESSAGE": "Tento web používá cookies pro zajištění nejlepšího zážitku.",
     "ACCEPT": "Přijmout"
+  },
+  "COMMON": {
+    "LOADING": "Načítání...",
+    "BACK": "Zpět",
+    "SAVE_CHANGES": "Uložit",
+    "CANCEL": "Zrušit",
+    "DELETE": "Smazat"
+  },
+  "VACATION": {
+    "REQUEST": {
+      "TITLE": "Žádost o dovolenou",
+      "START_DATE": "Datum začátku",
+      "END_DATE": "Datum konce",
+      "TYPE": "Typ dovolené",
+      "REASON": "Důvod",
+      "SUBMIT": "Odeslat žádost"
+    },
+    "TYPES": {
+      "ANNUAL": "Běžná dovolená",
+      "SICK": "Nemocenská",
+      "UNPAID": "Neplacená dovolená"
+    },
+    "ERRORS": {
+      "START_DATE_REQUIRED": "Datum začátku je povinné",
+      "END_DATE_REQUIRED": "Datum konce je povinné",
+      "TYPE_REQUIRED": "Typ dovolené je povinný",
+      "REASON_REQUIRED": "Důvod je povinný",
+      "REASON_MIN_LENGTH": "Důvod musí mít alespoň 10 znaků"
+    },
+    "MESSAGES": {
+      "REQUEST_SUBMITTED": "Žádost o dovolenou byla úspěšně odeslána",
+      "REQUEST_ERROR": "Chyba při odesílání žádosti o dovolenou"
+    }
   }
 }
