@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.1.1](https://github.com/Kocsis-Hernyik-Solutions/VocationTracker/compare/v3.0.0...v3.1.1) (2025-01-14)
+
+## [3.1.0](https://github.com/Kocsis-Hernyik-Solutions/VocationTracker/compare/v3.0.0...v3.1.0) (2025-01-14)
+
+## [3.0.0](https://github.com/Kocsis-Hernyik-Solutions/VocationTracker/compare/v2.0.3...v3.0.0) (2025-01-14)
+
+
+### ♻️ Refactoring
+
+* **calendar:** Update header text color and clean up cell hover code ([42e4f88](https://github.com/Kocsis-Hernyik-Solutions/VocationTracker/commit/42e4f88049e1ee0a603d0898a09ced57f174d58f))
+
+### [2.0.3](https://github.com/Kocsis-Hernyik-Solutions/VocationTracker/compare/v2.0.2...v2.0.3) (2025-01-13)
+
+### [2.0.2](https://github.com/Kocsis-Hernyik-Solutions/VocationTracker/compare/v2.0.1...v2.0.2) (2025-01-13)
+
 ### [2.0.1](https://github.com/Kocsis-Hernyik-Solutions/VocationTracker/compare/v0.0.1...v2.0.1) (2025-01-13)
 
 

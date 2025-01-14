@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { Component, ErrorHandler, OnInit } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -10,9 +9,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { Router, RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { UserService } from '../../services/firestore/user.service';
-import { AuthService } from '../../services/auth/auth.service';
-import { User } from '../../shared/models/User';
+import { UserService } from '../../../services/user.service';
+import { AuthService } from '../../../services/auth/auth.service';
+import { User } from '../../../shared/models/User';
+import { User as FirebaseUser } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-registration',
@@ -42,7 +42,6 @@ export class RegistrationComponent implements OnInit {
     private errorHandler: ErrorHandler,
     private authService: AuthService,
     private router: Router,
-    private afAuth: AngularFireAuth,
     private userService: UserService
   ) {
     this.signupForm = this.fb.group({
@@ -87,7 +86,7 @@ export class RegistrationComponent implements OnInit {
         return 'Please enter a valid email address';
       }
       if (control?.hasError('minlength')) {
-        return controlName === 'password' 
+        return controlName === 'password'
           ? 'Password must be at least 6 characters long'
           : 'Must be at least 2 characters long';
       }
@@ -103,6 +102,7 @@ export class RegistrationComponent implements OnInit {
     if (this.signupForm.valid) {
       try {
         const { email, password, name, position, department } = this.signupForm.value;
+<<<<<<< HEAD:src/app/pages/registration/registration.component.ts
         
         // First create the user in Firebase Auth
         const credential = await this.authService.signupUser(email, password);
@@ -129,17 +129,44 @@ export class RegistrationComponent implements OnInit {
             horizontalPosition: 'center',
             verticalPosition: 'bottom'
           });
+=======
+>>>>>>> 1254107435a254f99c448ebe6359a7d68c97986f:src/app/pages/auth/registration/registration.component.ts
 
-          // Sign out the user (since we want them to log in explicitly)
-          await this.authService.logout();
-          
-          // Navigate to login
-          this.router.navigate(['/login']);
-        }
+        // Create the user in Firebase Auth
+        const firebaseUser = await this.authService.signupUser(email, password);
+
+        // Create the user document in Firestore
+        const user: User = {
+          id: firebaseUser.uid,
+          email: email,
+          name: name,
+          position: position,
+          department: department,
+          remainingDays: 20, // Default value
+          role: 'user', // Default role
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          isActive: true
+        };
+
+        await this.userService.create(user);
+
+        // Show success message
+        this.snackBar.open('Registration successful! Please log in.', 'Close', {
+          duration: 3000,
+          horizontalPosition: 'center',
+          verticalPosition: 'bottom'
+        });
+
+        // Sign out the user (since we want them to log in explicitly)
+        await this.authService.logout();
+
+        // Navigate to login
+        this.router.navigate(['/login']);
       } catch (error: any) {
         console.error('Registration error:', error);
         let errorMessage = 'Registration failed';
-        
+
         // Handle specific Firebase Auth errors
         if (error.code === 'auth/email-already-in-use') {
           errorMessage = 'This email is already registered. Please use a different email or try logging in.';

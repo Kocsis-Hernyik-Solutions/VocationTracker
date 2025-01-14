@@ -1,28 +1,70 @@
-<div class="all-requests-container">
-  <h1>{{ 'ALL_REQUESTS.TITLE' | translate }}</h1>
-  
-  <div *ngIf="loading" class="loading-spinner">
+<div class="requests-container">
+  <!-- Loading state -->
+  <div *ngIf="loading" class="loading-state">
     <mat-spinner diameter="40"></mat-spinner>
+    <p>{{ 'COMMON.LOADING' | translate }}</p>
   </div>
 
-  <div *ngIf="error" class="error-message">
-    {{ error }}
+  <!-- Error state -->
+  <div *ngIf="error" class="error-state">
+    <p>{{ 'VACATION.ERRORS.LOAD_REQUESTS' | translate }}</p>
   </div>
-  
+
+  <!-- Requests list -->
   <div *ngIf="!loading && !error" class="requests-list">
-    <div class="request-item" *ngFor="let request of allRequests">
-      <div class="request-details">
-        <div class="dates">
-          <span class="date">{{request.startDate | date}} - {{request.endDate | date}}</span>
-          <span class="duration">({{request.duration}} days)</span>
-        </div>
-        <div class="type">{{request.type}}</div>
-        <span class="status {{request.status | lowercase}}">{{request.status}}</span>
-      </div>
-    </div>
+    <table mat-table [dataSource]="requests" class="requests-table">
+      <!-- Start Date Column -->
+      <ng-container matColumnDef="startDate">
+        <th mat-header-cell *matHeaderCellDef>{{ 'VACATION.REQUEST.START_DATE' | translate }}</th>
+        <td mat-cell *matCellDef="let request">{{ formatDate(request.startDate) }}</td>
+      </ng-container>
 
-    <div *ngIf="!loading && !error && allRequests.length === 0" class="no-requests">
-      {{ 'ALL_REQUESTS.NO_REQUESTS' | translate }}
+      <!-- End Date Column -->
+      <ng-container matColumnDef="endDate">
+        <th mat-header-cell *matHeaderCellDef>{{ 'VACATION.REQUEST.END_DATE' | translate }}</th>
+        <td mat-cell *matCellDef="let request">{{ formatDate(request.endDate) }}</td>
+      </ng-container>
+
+      <!-- Type Column -->
+      <ng-container matColumnDef="type">
+        <th mat-header-cell *matHeaderCellDef>{{ 'VACATION.REQUEST.TYPE' | translate }}</th>
+        <td mat-cell *matCellDef="let request">{{ 'VACATION.TYPES.' + request.type.toUpperCase() | translate }}</td>
+      </ng-container>
+
+      <!-- Status Column -->
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef>{{ 'VACATION.REQUEST.STATUS' | translate }}</th>
+        <td mat-cell *matCellDef="let request" [class]="'status-' + request.status">
+          {{ 'VACATION.STATUS.' + request.status.toUpperCase() | translate }}
+        </td>
+      </ng-container>
+
+      <!-- Actions Column -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>{{ 'COMMON.ACTIONS' | translate }}</th>
+        <td mat-cell *matCellDef="let request">
+          <button mat-icon-button color="primary" 
+                  (click)="updateStatus(request.id, 'approved')"
+                  [disabled]="request.status !== 'pending'"
+                  [matTooltip]="'VACATION.ACTIONS.APPROVE' | translate">
+            <mat-icon>check</mat-icon>
+          </button>
+          <button mat-icon-button color="warn"
+                  (click)="updateStatus(request.id, 'rejected')"
+                  [disabled]="request.status !== 'pending'"
+                  [matTooltip]="'VACATION.ACTIONS.REJECT' | translate">
+            <mat-icon>close</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <!-- No requests message -->
+    <div *ngIf="requests.length === 0" class="no-requests">
+      <p>{{ 'VACATION.MESSAGES.NO_REQUESTS' | translate }}</p>
     </div>
   </div>
 </div>

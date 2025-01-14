@@ -12,7 +12,7 @@
       "HELP": "Segítség"
     },
     "NAV": {
-      "DASHBOARD": "Vezérlőpult",
+      "DASHBOARD": "Irányítópult",
       "PROFILE": "Profil",
       "SETTINGS": "Beállítások",
       "LOGOUT": "Kijelentkezés"
@@ -34,7 +34,8 @@
     },
     "BUTTONS": {
       "TODAY": "Ma",
-      "MONTH": "Hónap"
+      "MONTH": "Hónap",
+      "LIST": "Lista"
     },
     "DAYS": {
       "MONDAY": "Hétfő",
@@ -45,7 +46,7 @@
       "SATURDAY": "Szombat",
       "SUNDAY": "Vasárnap"
     },
-    "TITLE": "Szabadság naptár",
+    "TITLE": "Szabadság Naptár",
     "NO_EVENTS": "Nincsenek szabadság kérelmek"
   },
   "DASHBOARD": {
@@ -78,37 +79,37 @@
   "ERROR": {
     "404": {
       "TITLE": "404 - Az oldal nem található",
-      "MESSAGE": "A keresett oldal nem létezik vagy nincs jogosultságod a megtekintéséhez.",
-      "SUBMESSAGE": "Kérjük, ellenőrizd az URL-t vagy térj vissza a kezdőlapra.",
+      "MESSAGE": "A keresett oldal nem létezik vagy nincs jogosultsága hozzáférni.",
+      "SUBMESSAGE": "Kérjük ellenőrizze az URL-t vagy térjen vissza a kezdőlapra.",
       "BACK_BUTTON": "Vissza a kezdőlapra"
     },
     "500": {
-      "TITLE": "500 - Szerverhiba",
-      "MESSAGE": "Sajnáljuk, valami hiba történt a szerverünkön.",
-      "SUBMESSAGE": "Kérjük, próbáld újra később.",
+      "TITLE": "500 - Szerver Hiba",
+      "MESSAGE": "Sajnáljuk, hiba történt a szerveren.",
+      "SUBMESSAGE": "Kérjük próbálja újra később.",
       "BACK_BUTTON": "Vissza a kezdőlapra"
     }
   },
   "THEME": {
-    "LIGHT": "Világos mód",
-    "DARK": "Sötét mód",
-    "TOGGLE": "Téma váltása"
+    "LIGHT": "Világos Mód",
+    "DARK": "Sötét Mód",
+    "TOGGLE": "Téma Váltás"
   },
   "PROFILE": {
     "TITLE": "Profil",
     "SUBTITLE": "Személyes adatok kezelése",
     "FORM": {
-      "NAME": "Teljes név",
-      "NAME_PLACEHOLDER": "Add meg a teljes neved",
+      "NAME": "Teljes Név",
+      "NAME_PLACEHOLDER": "Adja meg teljes nevét",
       "EMAIL": "Email",
-      "EMAIL_PLACEHOLDER": "Add meg az email címed",
+      "EMAIL_PLACEHOLDER": "Adja meg email címét",
       "POSITION": "Pozíció",
-      "POSITION_PLACEHOLDER": "Add meg a munkakörödét",
+      "POSITION_PLACEHOLDER": "Adja meg pozícióját",
       "DEPARTMENT": "Részleg",
-      "DEPARTMENT_PLACEHOLDER": "Add meg a részleged"
+      "DEPARTMENT_PLACEHOLDER": "Adja meg részlegét"
     },
     "ACTIONS": {
-      "SAVE": "Változtatások mentése",
+      "SAVE": "Változtatások Mentése",
       "CANCEL": "Mégse"
     },
     "ERRORS": {
@@ -128,9 +129,36 @@
     "ACCEPT": "Elfogadom"
   },
   "COMMON": {
+    "LOADING": "Betöltés...",
     "BACK": "Vissza",
     "SAVE_CHANGES": "Mentés",
     "CANCEL": "Mégse",
     "DELETE": "Törlés"
+  },
+  "VACATION": {
+    "REQUEST": {
+      "TITLE": "Szabadság Igénylése",
+      "START_DATE": "Kezdő Dátum",
+      "END_DATE": "Befejező Dátum",
+      "TYPE": "Szabadság Típusa",
+      "REASON": "Indoklás",
+      "SUBMIT": "Igénylés Beküldése"
+    },
+    "TYPES": {
+      "ANNUAL": "Normál Szabadság",
+      "SICK": "Betegszabadság",
+      "UNPAID": "Fizetés Nélküli Szabadság"
+    },
+    "ERRORS": {
+      "START_DATE_REQUIRED": "Kezdő dátum megadása kötelező",
+      "END_DATE_REQUIRED": "Befejező dátum megadása kötelező",
+      "TYPE_REQUIRED": "Szabadság típus megadása kötelező",
+      "REASON_REQUIRED": "Indoklás megadása kötelező",
+      "REASON_MIN_LENGTH": "Az indoklásnak legalább 10 karakter hosszúnak kell lennie"
+    },
+    "MESSAGES": {
+      "REQUEST_SUBMITTED": "Szabadság igénylés sikeresen beküldve",
+      "REQUEST_ERROR": "Hiba történt a szabadság igénylés beküldésekor"
+    }
   }
 }

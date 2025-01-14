@@ -1,16 +1,18 @@
-<div class="app-container" [class.no-menu]="!authService.isLoggedIn()">
-  <ng-container *ngIf="authService.isLoggedIn(); else loginContent">
-    <app-menu>
-      <div class="content-wrapper">
-        <router-outlet></router-outlet>
-        <app-footer></app-footer>
-      </div>
-    </app-menu>
-  </ng-container>
-  <ng-template #loginContent>
-    <div class="content-wrapper">
+<app-loading *ngIf="loading"></app-loading>
+
+<div class="app-layout">
+  <app-menu *ngIf="authService.userLoggedIn | async">
+    <main [class.loading]="loading">
       <router-outlet></router-outlet>
-    </div>
-  </ng-template>
+    </main>
+  </app-menu>
+
+  <ng-container *ngIf="!(authService.userLoggedIn | async)">
+    <main [class.loading]="loading">
+      <router-outlet></router-outlet>
+    </main>
+  </ng-container>
 </div>
+
+<app-footer></app-footer>
 <app-cookie-consent></app-cookie-consent>

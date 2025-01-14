@@ -1,15 +1,17 @@
-export interface User {
-    id: string;
-    email: string;
-    name: string;
-    avaiable_days_off: number;
-    taken_days: number;
-    leader: boolean;
-    admin: boolean;
-     department: {
-     id: string;
-     name: string;
- };
-    post: string;
+export type UserRole = 'user' | 'admin' | 'leader';
 
+export interface User {
+  id: string;
+  email: string;
+  name: string;
+  position: string;
+  department: string;
+  remainingDays: number;
+  role: UserRole;
+  createdAt?: Date;
+  updatedAt?: Date;
+  lastLoginAt?: Date;
+  isActive?: boolean;
+  phoneNumber?: string;
+  imageUrl?: string;
 }

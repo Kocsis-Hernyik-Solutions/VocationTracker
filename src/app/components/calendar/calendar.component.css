@@ -1,264 +1,225 @@
 .calendar-container {
-  padding: 20px;
-  background: var(--calendar-bg);
-  box-shadow: var(--box-shadow);
+  padding: 1.5rem;
+  background-color: var(--background-color);
+  color: var(--text-color);
 }
 
-/* Jelmagyarázat stílusok */
+mat-card {
+  background-color: var(--background-color);
+  border-radius: 8px;
+  box-shadow: var(--card-shadow);
+  margin-bottom: 1.5rem;
+  color: var(--text-color);
+}
+
+.calendar-wrapper {
+  margin: 1.5rem 0;
+  background-color: var(--background-color);
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: var(--card-shadow);
+}
+
+/* Calendar Base Styles */
+::ng-deep {
+  .fc {
+    background: var(--background-color);
+    font-family: var(--font-family);
+    color: var(--text-color);
+
+    /* Calendar Day Cell Hover */
+    .fc-daygrid-day {
+      transition: background-color 0.2s ease;
+    }
+
+    .fc-daygrid-day:hover {
+      background-color: var(--primary-color);
+      cursor: pointer;
+      .fc-daygrid-day-number {
+        color: white;
+      }
+    }
+
+    /* Calendar Variables */
+    --fc-border-color: var(--border-color);
+    --fc-button-bg-color: var(--background-color);
+    --fc-button-border-color: var(--primary-color);
+    --fc-button-hover-bg-color: var(--primary-dark-color);
+    --fc-button-hover-border-color: var(--primary-dark-color);
+    --fc-button-active-bg-color: var(--primary-dark-color);
+    --fc-button-active-border-color: var(--primary-dark-color);
+    --fc-today-bg-color: var(--primary-light-color, rgba(33, 150, 243, 0.1));
+    --fc-neutral-bg-color: var(--background-color);
+
+    /* Toolbar Styles */
+    .fc-toolbar {
+      padding: 1rem;
+      margin-bottom: 0;
+
+      .fc-toolbar-title {
+        color: var(--text-color);
+      }
+
+      .fc-button {
+        font-weight: 500;
+        text-transform: uppercase;
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+        color: var(--text-color);
+
+        &:focus {
+          box-shadow: 0 0 0 2px var(--primary-light-color);
+        }
+      }
+    }
+
+    /* Header and Grid Styles */
+    .fc-col-header-cell {
+      background-color: var(--background-color);
+    }
+
+    .fc-scrollgrid,
+    .fc-theme-standard td,
+    .fc-theme-standard th {
+      border-color: var(--border-color);
+    }
+
+    /* Day Cell Styles */
+    .fc-daygrid-day {
+      transition: background-color 0.2s ease;
+      
+      .fc-daygrid-day-number {
+        color: var(--text-color);
+        padding: 0.5rem;
+        font-weight: 500;
+        transition: color 0.2s ease;
+      }
+    }
+
+    /* Today Style */
+    .fc-day-today {
+      background-color: var(--primary-light-color) !important;
+      
+      .fc-daygrid-day-number {
+        color: var(--primary-color);
+        font-weight: 600;
+      }
+
+      &:hover {
+        background-color: var(--primary-color) !important;
+        .fc-daygrid-day-number {
+          color: white;
+        }
+      }
+    }
+
+    /* Weekend Style */
+    .fc-day-sat,
+    .fc-day-sun {
+      background-color: var(--background-color);
+      
+      .fc-daygrid-day-number {
+        color: var(--secondary-text-color);
+      }
+
+      &:hover {
+        background-color: var(--primary-color);
+        .fc-daygrid-day-number {
+          color: white;
+        }
+      }
+    }
+  }
+}
+
+/* Calendar Cell Hover States */
+.calendar-cell {
+  transition: background-color 0.2s ease;
+  cursor: pointer;
+}
+
+.calendar-cell-hover {
+  background-color: var(--primary-color) !important;
+}
+
+.calendar-cell-hover .fc-daygrid-day-number {
+  color: white !important;
+  transition: color 0.2s ease;
+}
+
+/* Event Styles */
+.vacation-pending {
+  background-color: var(--warning-color, #ff9800) !important;
+  border-color: var(--warning-color, #ff9800) !important;
+  color: var(--text-on-warning-color, #000) !important;
+}
+
+.vacation-approved {
+  background-color: var(--success-color, #4caf50) !important;
+  border-color: var(--success-color, #4caf50) !important;
+  color: var(--text-on-success-color, #fff) !important;
+}
+
+.vacation-rejected {
+  background-color: var(--error-color, #f44336) !important;
+  border-color: var(--error-color, #f44336) !important;
+  color: var(--text-on-error-color, #fff) !important;
+}
+
+/* Legend */
 .calendar-legend {
   display: flex;
-  gap: 20px;
-  margin-bottom: 20px;
-  padding: 12px;
-  background: var(--calendar-legend-bg);
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  justify-content: center;
+  background-color: var(--background-color);
+  border-top: 1px solid var(--border-color);
+  margin-top: 1.5rem;
+  border-radius: 0 0 8px 8px;
 }
 
 .legend-item {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 0.75rem;
+  color: var(--text-color);
+  font-size: 0.9rem;
 }
 
 .legend-color {
-  width: 16px;
-  height: 16px;
-}
-
-.legend-color.approved {
-  background-color: var(--success-color);
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .legend-color.pending {
-  background-color: var(--warn-color);
+  background-color: var(--warning-color, #ff9800);
+}
+
+.legend-color.approved {
+  background-color: var(--success-color, #4caf50);
 }
 
 .legend-color.rejected {
-  background-color: var(--error-color);
+  background-color: var(--error-color, #f44336);
 }
 
-.legend-label {
-  font-size: 14px;
-  color: var(--text-color);
-  font-weight: 500;
-}
-
-/* Naptár alapstílusok */
-:host ::ng-deep .fc {
-  font-family: var(--font-family);
-  background-color: var(--calendar-bg);
-  overflow: hidden;
-}
-
-/* Fejléc stílusok */
-:host ::ng-deep .fc .fc-toolbar {
-  padding: 1rem;
-  background-color: var(--calendar-header-bg);
-}
-
-:host ::ng-deep .fc .fc-toolbar-title {
-  color: var(--text-color);
-  font-size: 1.25rem;
-  font-weight: 500;
-}
-
-/* Gombok stílusok */
-:host ::ng-deep .fc .fc-button-primary {
-  background-color: var(--primary-color);
-  color: white;
-}
-
-:host ::ng-deep .fc .fc-button-primary:hover {
-  background-color: var(--primary-color-dark);
-}
-
-:host ::ng-deep .fc .fc-button-primary:disabled {
-  background-color: var(--secondary-text-color);
-}
-
-/* Napok fejléce */
-:host ::ng-deep .fc .fc-col-header-cell {
-  background-color: var(--calendar-header-bg);
-}
-
-:host ::ng-deep .fc .fc-col-header-cell-cushion {
-  color: var(--text-color);
-  font-weight: 500;
-  padding: 8px;
-}
-
-/* Naptár cellák */
-:host ::ng-deep .fc .fc-daygrid-day {
-  background-color: var(--calendar-bg);
-}
-
-:host ::ng-deep .fc .fc-daygrid-day-number {
-  color: var(--text-color);
-  padding: 8px;
-}
-
-/* Mai nap kiemelése */
-:host ::ng-deep .fc .fc-day-today {
-  background-color: var(--calendar-today-bg) !important;
-}
-
-/* Események stílusai */
-.vacation-event {
-  padding: 4px 8px;
-}
-
-.vacation-title {
-  font-weight: 500;
-  color: var(--text-color);
-  margin-bottom: 2px;
-}
-
-.vacation-status {
-  font-size: 0.875rem;
-  color: var(--text-color);
-  opacity: 0.8;
-}
-
-/* Esemény típusok */
-:host ::ng-deep .vacation-approved {
-  background-color: var(--success-color);
-  color: white;
-}
-
-:host ::ng-deep .vacation-pending {
-  background-color: var(--warn-color);
-  color: var(--text-color-dark);
-}
-
-:host ::ng-deep .vacation-rejected {
-  background-color: var(--error-color);
-  color: white;
-}
-
-/* Toolbar gombok szöveg színe */
-:host ::ng-deep .fc .fc-button {
-  color: var(--text-color);
-}
-
-:host ::ng-deep .fc .fc-button-primary {
-  color: white;
-}
-
-/* Rács szerkezet színei */
-:host ::ng-deep .fc td, 
-:host ::ng-deep .fc th {
-  border-color: var(--calendar-grid-color) !important;
-}
-
-:host ::ng-deep .fc-theme-standard td, 
-:host ::ng-deep .fc-theme-standard th {
-  border-color: var(--calendar-grid-color) !important;
-}
-
-:host ::ng-deep .fc-theme-standard .fc-scrollgrid {
-  border-color: var(--calendar-grid-color) !important;
-}
-
-/* Reszponzív stílusok */
+/* Responsive Styles */
 @media (max-width: 768px) {
-  .calendar-container {
-    padding: 10px;
-  }
-
-  .calendar-legend {
+  .fc-toolbar {
     flex-direction: column;
-    gap: 8px;
-    padding: 8px;
-    margin-bottom: 12px;
+    gap: 1rem;
   }
 
-  :host ::ng-deep .fc {
-    font-size: 14px;
-  }
-
-  :host ::ng-deep .fc .fc-toolbar {
-    flex-direction: column;
-    gap: 0.5rem;
-    padding: 0.75rem;
-  }
-
-  :host ::ng-deep .fc .fc-toolbar-title {
-    font-size: 1rem;
-    text-align: center;
-  }
-
-  :host ::ng-deep .fc .fc-toolbar-chunk {
+  .fc-toolbar-chunk {
     display: flex;
     justify-content: center;
-    gap: 0.5rem;
   }
 
-  :host ::ng-deep .fc .fc-button {
-    padding: 6px 12px;
-    font-size: 0.875rem;
-  }
-
-  :host ::ng-deep .fc .fc-col-header-cell-cushion {
-    padding: 4px;
-    font-size: 0.875rem;
-  }
-
-  :host ::ng-deep .fc .fc-daygrid-day-number {
-    padding: 4px;
-    font-size: 0.875rem;
-  }
-
-  /* Események stílusai mobilon */
-  :host ::ng-deep .fc-daygrid-event {
-    margin: 2px 0;
-  }
-
-  .vacation-event {
-    padding: 2px 4px;
-  }
-
-  .vacation-title {
-    font-size: 0.75rem;
-    margin-bottom: 1px;
-  }
-
-  .vacation-status {
-    font-size: 0.7rem;
-  }
-
-  /* Naptár magasság mobilon */
-  :host ::ng-deep .fc-view {
-    height: auto !important;
-  }
-
-  :host ::ng-deep .fc-daygrid-day-frame {
-    min-height: 60px;
-  }
-}
-
-/* Még kisebb képernyőkön */
-@media (max-width: 480px) {
-  .calendar-container {
-    padding: 5px;
-  }
-
-  :host ::ng-deep .fc .fc-toolbar {
-    padding: 0.5rem;
-  }
-
-  :host ::ng-deep .fc .fc-toolbar-chunk {
-    width: 100%;
-  }
-
-  :host ::ng-deep .fc .fc-toolbar-chunk:not(:last-child) {
-    margin-bottom: 0.5rem;
-  }
-
-  :host ::ng-deep .fc .fc-button {
-    padding: 4px 8px;
-    font-size: 0.75rem;
-  }
-
-  :host ::ng-deep .fc-daygrid-day-frame {
-    min-height: 50px;
+  .fc-daygrid-day-number {
+    padding: 0.25rem;
   }
 }
