@@ -1,0 +1,56 @@
+<div class="request-container">
+  <h2>{{ 'VACATION.REQUEST.TITLE' | translate }}</h2>
+  
+  <form [formGroup]="requestForm" (ngSubmit)="onSubmit()" class="request-form">
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>{{ 'VACATION.REQUEST.START_DATE' | translate }}</mat-label>
+        <input matInput [matDatepicker]="startPicker" formControlName="startDate">
+        <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+        <mat-datepicker #startPicker></mat-datepicker>
+        <mat-error *ngIf="requestForm.get('startDate')?.errors?.['required']">
+          {{ 'VACATION.ERRORS.START_DATE_REQUIRED' | translate }}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>{{ 'VACATION.REQUEST.END_DATE' | translate }}</mat-label>
+        <input matInput [matDatepicker]="endPicker" formControlName="endDate">
+        <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+        <mat-datepicker #endPicker></mat-datepicker>
+        <mat-error *ngIf="requestForm.get('endDate')?.errors?.['required']">
+          {{ 'VACATION.ERRORS.END_DATE_REQUIRED' | translate }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <mat-form-field appearance="outline">
+      <mat-label>{{ 'VACATION.REQUEST.TYPE' | translate }}</mat-label>
+      <mat-select formControlName="type">
+        <mat-option *ngFor="let type of types" [value]="type.value">
+          {{ type.label | translate }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="requestForm.get('type')?.errors?.['required']">
+        {{ 'VACATION.ERRORS.TYPE_REQUIRED' | translate }}
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>{{ 'VACATION.REQUEST.REASON' | translate }}</mat-label>
+      <textarea matInput formControlName="reason" rows="4"></textarea>
+      <mat-error *ngIf="requestForm.get('reason')?.errors?.['required']">
+        {{ 'VACATION.ERRORS.REASON_REQUIRED' | translate }}
+      </mat-error>
+      <mat-error *ngIf="requestForm.get('reason')?.errors?.['minlength']">
+        {{ 'VACATION.ERRORS.REASON_MIN_LENGTH' | translate }}
+      </mat-error>
+    </mat-form-field>
+
+    <div class="form-actions">
+      <button mat-raised-button color="primary" type="submit" [disabled]="!requestForm.valid">
+        {{ 'VACATION.REQUEST.SUBMIT' | translate }}
+      </button>
+    </div>
+  </form>
+</div>

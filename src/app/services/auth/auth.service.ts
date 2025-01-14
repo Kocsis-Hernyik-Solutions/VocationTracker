@@ -1,70 +1,83 @@
 import { Injectable } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { Auth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, User } from '@angular/fire/auth';
 import { Router } from '@angular/router';
-import { BehaviorSubject, map, Observable } from 'rxjs';
-import { UserService } from '../firestore/user.service';
-
+import { BehaviorSubject, Observable } from 'rxjs';
+import { UserService } from '../user.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+  private currentUserSubject = new BehaviorSubject<User | null>(null);
+  currentUser$ = this.currentUserSubject.asObservable();
+  userLoggedIn = new BehaviorSubject<boolean>(false);
 
-  userLoggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-  userId: string;
-  currentUser: Observable<any>;
- 
-  constructor(private router: Router, private afAuth: AngularFireAuth) {
-    this.userLoggedIn.next(false);
-    this.userId = "";
-    this.currentUser = this.afAuth.authState;
-    
-    // Subscribe to Firebase auth state changes
-    this.afAuth.onAuthStateChanged((user) => {
-      if (user) {
-        this.userLoggedIn.next(true);
-        this.userId = user.uid;
-      } else {
-        this.userLoggedIn.next(false);
-        this.userId = "";
-      }
+  constructor(
+    private auth: Auth,
+    private router: Router,
+    private userService: UserService
+  ) {
+    this.auth.onAuthStateChanged(user => {
+      this.currentUserSubject.next(user);
+      this.userLoggedIn.next(!!user);
     });
   }
 
-  login(email: string, password: string): Promise<any> {
-      return this.afAuth.signInWithEmailAndPassword(email, password)
-          .then(() => {
-              console.log('Auth Service: loginUser: success');
-              this.userLoggedIn.next(true);
-              // this.router.navigate(['/dashboard']);
-          })
-          .catch((error) => {
-              console.log('Auth Service: login error...');
-              console.log('error code', error.code);
-              console.log('error', error);
-              if (error.code)
-                  return { isValid: false, message: error.message };
-                  return { isValid: false, message: error.message };
-          });
+  getCurrentUser(): Observable<User | null> {
+    return this.currentUser$;
   }
 
-  signupUser(email: string, password: string): Promise<any> {
-      return this.afAuth.createUserWithEmailAndPassword(email, password);         
+  async login(email: string, password: string): Promise<void> {
+    try {
+      const result = await signInWithEmailAndPassword(this.auth, email, password);
+      if (result.user) {
+        // Check if user exists in Firestore, if not create them
+        const userDoc = await this.userService.getById(result.user.uid);
+        if (!userDoc) {
+          await this.userService.createUser(result.user.uid, {
+            email: result.user.email!,
+            name: result.user.displayName || 'User',
+            role: 'user',
+            remainingDays: 20,
+            position: '',
+            department: '',
+            isActive: true,
+            createdAt: new Date(),
+            updatedAt: new Date()
+          });
+        }
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+      throw error;
+    }
+  }
+
+  async signupUser(email: string, password: string): Promise<User> {
+    try {
+      const result = await createUserWithEmailAndPassword(this.auth, email, password);
+      return result.user;
+    } catch (error) {
+      console.error('Registration error:', error);
+      throw error;
+    }
   }
 
   async logout(): Promise<void> {
     try {
-      await this.afAuth.signOut();
-      this.userLoggedIn.next(false);
-      this.userId = "";
+      await signOut(this.auth);
       this.router.navigate(['/login']);
     } catch (error) {
       console.error('Logout error:', error);
+      throw error;
     }
   }
 
   isLoggedIn(): boolean {
-    return this.userLoggedIn.value;
+    return !!this.auth.currentUser;
   }
 
+  getCurrentUserId(): string | null {
+    return this.auth.currentUser?.uid || null;
+  }
 }

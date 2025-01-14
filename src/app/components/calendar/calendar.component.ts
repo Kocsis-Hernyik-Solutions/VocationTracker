@@ -1,101 +1,200 @@
-import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { MatCardModule } from '@angular/material/card';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { VacationService } from '../../services/vacation.service';
+import { VacationRequest } from '../../shared/models/VacationRequest';
+import { AuthService } from '../../services/auth/auth.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { CalendarOptions, EventInput } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
-import { VacationService } from '../../services/vacation.service';
-import { VacationRequest, RequestStatus } from '../../models/vacation-request.model';
-import { ThemeService } from '../../services/theme.service';
-import { Subscription } from 'rxjs';
 import huLocale from '@fullcalendar/core/locales/hu';
-
-interface ExtendedProps {
-  status: RequestStatus;
-  type: string;
-}
 
 @Component({
   selector: 'app-calendar',
   standalone: true,
-  imports: [CommonModule, FullCalendarModule, TranslateModule],
+  imports: [
+    CommonModule,
+    MatCardModule,
+    MatProgressSpinnerModule,
+    TranslateModule,
+    FullCalendarModule
+  ],
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.css']
 })
 export class CalendarComponent implements OnInit, OnDestroy {
-  private themeSubscription: Subscription;
-  private languageSubscription: Subscription;
-  private currentTheme: boolean = false;
-  
-  calendarOptions: CalendarOptions = {
+  requests: VacationRequest[] = [];
+  loading = true;
+  error = false;
+  private readonly destroy$ = new Subject<void>();
+
+  private readonly defaultCalendarConfig: Partial<CalendarOptions> = {
     plugins: [dayGridPlugin],
     initialView: 'dayGridMonth',
     weekends: true,
     events: [],
     locale: huLocale,
-    eventClassNames: function(arg) {
-      const props = arg.event.extendedProps as ExtendedProps;
-      return [`vacation-${props.status.toLowerCase()}`];
-    },
-    eventContent: function(arg) {
-      const props = arg.event.extendedProps as ExtendedProps;
-      return {
-        html: `
-          <div class="vacation-event">
-            <div class="vacation-title">${arg.event.title}</div>
-            <div class="vacation-status">${props.status}</div>
-          </div>
-        `
-      };
+    height: 'auto',
+    displayEventTime: false,
+    dayHeaderContent: this.createDayHeaderContent(),
+    dayCellContent: this.createDayCellContent(),
+    dayHeaderClassNames: this.createDayHeaderClassNames(),
+    dayCellClassNames: this.createDayCellClassNames(),
+    eventClassNames: (arg) => [`vacation-${arg.event.extendedProps['status']}`],
+    dayCellDidMount: (arg) => {
+      const cell = arg.el;
+      
+      // Add base class
+      cell.classList.add('calendar-cell');
+      // Add event listeners
+      cell.addEventListener('mouseenter', () => {
+        cell.classList.add('calendar-cell-hover');
+      });
+
+      cell.addEventListener('mouseleave', () => {
+        cell.classList.remove('calendar-cell-hover');
+      });
+    }
+  };
+
+  calendarOptions: CalendarOptions = {
+    ...this.defaultCalendarConfig,
+    headerToolbar: {
+      left: 'prev,next',
+      center: 'title',
+      right: 'today'
     }
   };
 
   constructor(
-    private vacationService: VacationService,
-    private themeService: ThemeService,
-    private translateService: TranslateService
-  ) {
-    // Feliratkozás a téma változásra
-    this.themeSubscription = this.themeService.isDarkTheme$.subscribe(isDark => {
-      this.currentTheme = isDark;
-      this.updateCalendarTheme(isDark);
-    });
-
-    // Feliratkozás a nyelv változásra
-    this.languageSubscription = this.translateService.onLangChange.subscribe(() => {
-      this.updateCalendarTranslations();
-    });
-  }
+    private readonly vacationService: VacationService,
+    private readonly authService: AuthService,
+    private readonly translate: TranslateService
+  ) {}
 
   ngOnInit(): void {
-    this.loadVacationRequests();
-    this.updateCalendarTranslations();
+    this.initializeCalendar();
+    this.setupLanguageSubscription();
+    this.loadUserData();
   }
 
   ngOnDestroy(): void {
-    if (this.themeSubscription) {
-      this.themeSubscription.unsubscribe();
-    }
-    if (this.languageSubscription) {
-      this.languageSubscription.unsubscribe();
-    }
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
-  private loadVacationRequests(): void {
-    this.vacationService.getUserRequests().subscribe({
-      next: (requests) => {
-        const events: EventInput[] = this.convertRequestsToEvents(requests);
-        this.calendarOptions.events = events;
+  private initializeCalendar(): void {
+    this.calendarOptions = {
+      ...this.calendarOptions,
+      buttonText: {
+        today: this.translate.instant('CALENDAR.BUTTONS.TODAY')
       },
-      error: (error) => {
-        console.error('Error loading vacation requests:', error);
+      dayHeaderFormat: {
+        weekday: 'short'
       }
-    });
+    };
   }
 
-  private convertRequestsToEvents(requests: VacationRequest[]): EventInput[] {
-    return requests.map(request => ({
-      title: 'Vacation',
+  private setupLanguageSubscription(): void {
+    this.translate.onLangChange
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => this.updateCalendarLanguage());
+  }
+
+  private loadUserData(): void {
+    const userId = this.authService.getCurrentUserId();
+    if (userId) {
+      this.loadUserRequests(userId);
+    }
+  }
+
+  private loadUserRequests(userId: string): void {
+    this.loading = true;
+    this.error = false;
+
+    this.vacationService.getUserRequests(userId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (requests: VacationRequest[]) => {
+          this.requests = requests;
+          this.updateCalendarEvents(requests);
+          this.loading = false;
+        },
+        error: (error: Error) => {
+          console.error('Error loading vacation requests:', error);
+          this.error = true;
+          this.loading = false;
+        }
+      });
+  }
+
+  private createDayHeaderContent() {
+    return (arg: any) => {
+      const cellStyle = `
+        color: black;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+      `;
+      return {
+        html: `<div style="${cellStyle}">${arg.text}</div>`
+      };
+    };
+  }
+
+  private createDayCellContent() {
+    return (arg: any) => {
+      const isWeekend = arg.date.getDay() === 0 || arg.date.getDay() === 6;
+      const color = isWeekend ? 'var(--secondary-text-color)' : 'var(--text-color)';
+      const style = `
+        color: ${color};
+        width: 100%;
+        height: 100%;
+        display: block;
+        padding: 4px;
+      `;
+      return {
+        html: `<div class="fc-daygrid-day-number" style="${style}">${arg.dayNumberText}</div>`
+      };
+    };
+  }
+
+  private createDayHeaderClassNames() {
+    return (arg: any) => {
+      const classes = ['calendar-day-header'];
+      if (arg.dow === 0 || arg.dow === 6) {
+        classes.push('calendar-day-weekend');
+      }
+      return classes;
+    };
+  }
+
+  private createDayCellClassNames() {
+    return (arg: any) => {
+      const classes = ['calendar-day'];
+      if (arg.isToday) {
+        classes.push('calendar-day-today');
+      }
+      if (arg.isPast || arg.isFuture) {
+        classes.push('calendar-day-other-month');
+      }
+      if (arg.date.getDay() === 0 || arg.date.getDay() === 6) {
+        classes.push('calendar-day-weekend');
+      }
+      return classes;
+    };
+  }
+
+  private updateCalendarEvents(requests: VacationRequest[]): void {
+    const events: EventInput[] = requests.map(request => ({
+      title: this.getEventTitle(request.type),
       start: request.startDate,
       end: request.endDate,
       extendedProps: {
@@ -103,128 +202,40 @@ export class CalendarComponent implements OnInit, OnDestroy {
         type: request.type
       },
       backgroundColor: this.getEventColor(request.status),
-      borderColor: this.getEventColor(request.status),
-      textColor: 'var(--text-color)'
+      borderColor: this.getEventColor(request.status)
     }));
-  }
-
-  private getEventColor(status: RequestStatus): string {
-    switch (status) {
-      case RequestStatus.APPROVED:
-        return 'var(--success-color)';
-      case RequestStatus.PENDING:
-        return 'var(--warn-color)';
-      case RequestStatus.REJECTED:
-        return 'var(--error-color)';
-      default:
-        return 'var(--secondary-text-color)';
-    }
-  }
-
-  private updateCalendarTranslations(): void {
-    // Lefordítjuk a szükséges szövegeket
-    this.translateService.get([
-      'CALENDAR.BUTTONS.TODAY',
-      'CALENDAR.BUTTONS.MONTH',
-      'CALENDAR.DAYS.MONDAY',
-      'CALENDAR.DAYS.TUESDAY',
-      'CALENDAR.DAYS.WEDNESDAY',
-      'CALENDAR.DAYS.THURSDAY',
-      'CALENDAR.DAYS.FRIDAY',
-      'CALENDAR.DAYS.SATURDAY',
-      'CALENDAR.DAYS.SUNDAY'
-    ]).subscribe(translations => {
-      const commonOptions: Partial<CalendarOptions> = {
-        buttonText: {
-          today: translations['CALENDAR.BUTTONS.TODAY'],
-          month: translations['CALENDAR.BUTTONS.MONTH']
-        },
-        dayHeaderFormat: { weekday: 'long' },
-        locale: this.translateService.currentLang === 'hu' ? huLocale : undefined
-      };
-
-      this.calendarOptions = {
-        ...this.calendarOptions,
-        ...commonOptions
-      };
-    });
-  }
-
-  private updateCalendarTheme(isDark: boolean): void {
-    const isMobile = window.innerWidth <= 768;
-    
-    const commonOptions: Partial<CalendarOptions> = {
-      height: 'auto',
-      headerToolbar: {
-        left: isMobile ? 'prev,next' : 'prev,next today',
-        center: 'title',
-        right: 'dayGridMonth'
-      },
-      themeSystem: 'standard',
-      contentHeight: 'auto',
-      // Közös stílusok
-      eventTextColor: 'var(--text-color)',
-      titleFormat: { 
-        year: 'numeric', 
-        month: isMobile ? 'short' : 'long'
-      },
-      // Gombok stílusa
-      buttonIcons: {
-        prev: 'chevron-left',
-        next: 'chevron-right'
-      },
-      views: {
-        dayGridMonth: {
-          dayMaxEventRows: isMobile ? 2 : 3,
-          dayMaxEvents: isMobile ? 2 : 3,
-          eventMinHeight: isMobile ? 20 : 25
-        }
-      }
-    };
-
-    const darkThemeOptions: Partial<CalendarOptions> = {
-      ...commonOptions,
-      // Sötét téma specifikus beállítások
-      // Háttérszínek
-      eventBackgroundColor: 'var(--calendar-event-bg-dark)',
-      eventBorderColor: 'var(--calendar-event-border-dark)',
-      // Szövegszínek
-      eventTextColor: 'var(--text-color)',
-      // Fejléc és cella színek
-      views: {
-        dayGrid: {
-          backgroundColor: 'var(--calendar-bg-dark)',
-          borderColor: 'var(--calendar-border-dark)',
-          textColor: 'var(--text-color)'
-        }
-      }
-    };
-
-    const lightThemeOptions: Partial<CalendarOptions> = {
-      ...commonOptions,
-      // Világos téma specifikus beállítások
-      eventBackgroundColor: 'var(--calendar-event-bg)',
-      eventBorderColor: 'var(--calendar-event-border)',
-      // Szövegszínek
-      eventTextColor: 'var(--text-color)',
-      // Fejléc és cella színek
-      views: {
-        dayGrid: {
-          backgroundColor: 'var(--calendar-bg)',
-          borderColor: 'var(--calendar-border)',
-          textColor: 'var(--text-color)'
-        }
-      }
-    };
 
     this.calendarOptions = {
       ...this.calendarOptions,
-      ...(isDark ? darkThemeOptions : lightThemeOptions)
+      events
     };
   }
 
-  @HostListener('window:resize')
-  onResize() {
-    this.updateCalendarTheme(this.currentTheme);
+  private updateCalendarLanguage(): void {
+    const currentLang = this.translate.currentLang;
+    this.calendarOptions = {
+      ...this.calendarOptions,
+      locale: currentLang === 'hu' ? huLocale : 'en',
+      buttonText: {
+        today: this.translate.instant('CALENDAR.BUTTONS.TODAY')
+      }
+    };
+  }
+
+  private getEventTitle(type: string): string {
+    return this.translate.instant(`VACATION.TYPES.${type.toUpperCase()}`);
+  }
+
+  private getEventColor(status: string): string {
+    switch (status.toLowerCase()) {
+      case 'approved':
+        return 'var(--success-color, #4caf50)';
+      case 'pending':
+        return 'var(--warning-color, #ff9800)';
+      case 'rejected':
+        return 'var(--error-color, #f44336)';
+      default:
+        return 'var(--primary-color, #2196f3)';
+    }
   }
 }

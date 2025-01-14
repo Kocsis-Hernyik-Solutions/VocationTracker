@@ -19,9 +19,6 @@
       <button class="primary-button" (click)="requestVacation()">
         {{ 'DASHBOARD.CALENDAR.TITLE' | translate }}
       </button>
-      <button class="primary-button" (click)="requestVacation()">
-        {{ 'DASHBOARD.CALENDAR.TEAM_VACATIONS' | translate }}
-      </button>
     </div>
     <div class="vacation-status">
       <div class="remaining-days">
@@ -47,10 +44,6 @@
     <div class="calendar">
       <h2>{{ 'DASHBOARD.CALENDAR.TITLE' | translate }}</h2>
       <app-calendar></app-calendar>
-    </div>
-    <div class="team-calendar">
-      <h3>{{ 'DASHBOARD.CALENDAR.TEAM_VACATIONS' | translate }}</h3>
-      <app-team-calendar></app-team-calendar>
     </div>
   </section>
 

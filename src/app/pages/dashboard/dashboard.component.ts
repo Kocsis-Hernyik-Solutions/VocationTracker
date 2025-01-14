@@ -1,11 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { Router } from '@angular/router';
 import { CalendarComponent } from '../../components/calendar/calendar.component';
-import { TeamCalendarComponent } from '../../components/team-calendar/team-calendar.component';
+import { VacationService } from '../../services/vacation.service';
 import { AuthService } from '../../services/auth/auth.service';
-import { UserService } from '../../services/firestore/user.service';
+import { UserService } from '../../services/user.service';
+import { Router } from '@angular/router';
+import { Subject, interval } from 'rxjs';
+import { takeUntil, switchMap, filter } from 'rxjs/operators';
+import { User as FirebaseUser } from '@angular/fire/auth';
 
 interface VacationRequest {
   startDate: Date;
@@ -21,109 +28,77 @@ interface Notification {
 
 @Component({
   selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css'],
   standalone: true,
   imports: [
     CommonModule,
+    MatCardModule,
+    MatButtonModule,
+    MatIconModule,
+    RouterModule,
     TranslateModule,
-    CalendarComponent,
-    TeamCalendarComponent
-  ]
+    CalendarComponent
+  ],
+  templateUrl: './dashboard.component.html',
+  styleUrls: ['./dashboard.component.css']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
   userName: string = '';
   currentTime: Date = new Date();
   currentDate: Date = new Date();
-  remainingDays: number = 10;
-  isDarkMode: boolean;
-
-  pendingRequests: VacationRequest[] = [
-    {
-      startDate: new Date('2024-01-15'),
-      endDate: new Date('2024-01-20'),
-      status: 'pending'
-    },
-    {
-      startDate: new Date('2024-02-01'),
-      endDate: new Date('2024-02-05'),
-      status: 'approved'
-    }
-  ];
-
-  notifications: Notification[] = [
-    {
-      message: 'Elfogadták a szabadságkérelmedet',
-      time: new Date(),
-      icon: 'check-circle'
-    },
-    {
-      message: 'Emlékeztető: Nyújtsd be az éves szabadságtervet!',
-      time: new Date(),
-      icon: 'info-circle'
-    }
-  ];
+  remainingDays: number = 20;
+  pendingRequests: VacationRequest[] = [];
+  notifications: Notification[] = [];
+  private destroy$ = new Subject<void>();
 
   constructor(
+    private vacationService: VacationService,
     private authService: AuthService,
     private userService: UserService,
     private router: Router
-  ) {
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-      this.isDarkMode = savedTheme === 'dark';
-    } else {
-      this.isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    }
-    this.updateTheme();
+  ) {}
 
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-      if (!localStorage.getItem('theme')) {
-        this.isDarkMode = e.matches;
-        this.updateTheme();
-      }
-    });
-  }
+  ngOnInit(): void {
+    // Update time every minute
+    interval(60000)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.currentTime = new Date();
+      });
 
-  ngOnInit() {
-    this.authService.currentUser.subscribe(async user => {
-      if (user) {
-        const userData = await this.userService.getById(user.uid);
+    // Load user data
+    this.authService.getCurrentUser()
+      .pipe(
+        takeUntil(this.destroy$),
+        filter((user: FirebaseUser | null): user is FirebaseUser => !!user),
+        switchMap(user => this.userService.getUserById(user.uid))
+      )
+      .subscribe(userData => {
         if (userData) {
-          this.userName = userData.name || user.email || '';
-        } else {
-          this.userName = user.email || '';
+          this.userName = userData.name || userData.email;
+          this.remainingDays = userData.remainingDays || 20;
+          this.loadUserRequests(userData.id);
         }
-      }
-    });
-    this.updateDateTime();
-    setInterval(() => this.updateDateTime(), 60000); // Update every minute
+      });
   }
 
-  updateDateTime() {
-    this.currentTime = new Date();
-    this.currentDate = new Date();
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
-  requestVacation() {
+  requestVacation(): void {
     this.router.navigate(['/vacation/request']);
   }
 
-  requestAllRequests() {
+  requestAllRequests(): void {
     this.router.navigate(['/all-requests']);
   }
 
-  toggleTheme() {
-    this.isDarkMode = !this.isDarkMode;
-    this.updateTheme();
-    localStorage.setItem('theme', this.isDarkMode ? 'dark' : 'light');
-  }
-
-  private updateTheme() {
-    document.documentElement.setAttribute('data-theme', this.isDarkMode ? 'dark' : 'light');
-    const metaThemeColor = document.querySelector('meta[name="theme-color"]');
-    if (metaThemeColor) {
-      metaThemeColor.setAttribute('content', this.isDarkMode ? '#121212' : '#FFFFFF');
-    }
+  private loadUserRequests(userId: string): void {
+    this.vacationService.getUserRequests(userId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(requests => {
+        this.pendingRequests = requests.filter(req => req.status === 'pending');
+      });
   }
 }

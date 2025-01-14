@@ -1,0 +1,6 @@
+<div class="loading-overlay" [class.dark-theme]="themeService.isDarkTheme$ | async">
+  <div class="loading-spinner">
+    <div class="spinner"></div>
+    <p>{{ 'COMMON.LOADING' | translate }}</p>
+  </div>
+</div>

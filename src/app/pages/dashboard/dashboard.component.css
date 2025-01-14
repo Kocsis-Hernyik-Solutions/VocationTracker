@@ -1,7 +1,67 @@
 .dashboard-container {
-  padding: 2rem;
+  padding: 1rem;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr;
   max-width: 1200px;
   margin: 0 auto;
+}
+
+.quick-actions {
+  margin-bottom: 1rem;
+}
+
+.actions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  padding: 1rem 0;
+}
+
+.actions-grid button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  font-size: 1rem;
+}
+
+mat-card {
+  background: var(--card-background);
+  border-radius: 8px;
+  box-shadow: var(--box-shadow);
+}
+
+mat-card-header {
+  padding: 1rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+mat-card-title {
+  margin: 0 !important;
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: var(--text-color);
+}
+
+mat-card-content {
+  padding: 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .dashboard-container {
+    padding: 0.5rem;
+  }
+
+  .actions-grid {
+    grid-template-columns: 1fr;
+  }
+
+  mat-card-title {
+    font-size: 1.125rem;
+  }
 }
 
 /* Üdvözlő rész */
@@ -208,23 +268,45 @@ h2, h3 {
 }
 
 /* Reszponzív design */
-@media (max-width: 768px) {
-  .dashboard-container {
-    padding: 1rem;
+@media (max-width: 1024px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
   }
 
-  .quick-access,
+  .quick-access {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
   .calendar-section {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr; /* Make calendar full width */
+    width: 100%; /* Ensure full width */
   }
 
   .welcome-text h1 {
     font-size: 1.5rem;
   }
 
-  .datetime {
-    flex-direction: column;
-    gap: 0.5rem;
+  .welcome-text p {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-container {
+    padding: 1rem;
+  }
+
+  .quick-access {
+    grid-template-columns: 1fr; /* Stack cards on mobile */
+  }
+
+  .calendar-section {
+    grid-template-columns: 1fr;
+  }
+
+  .welcome-text h1 {
+    font-size: 1.25rem;
   }
 }
 

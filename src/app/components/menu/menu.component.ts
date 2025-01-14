@@ -10,8 +10,9 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ThemeService } from '../../services/theme.service';
 import { LanguageService } from '../../services/language.service';
 import { AuthService } from '../../services/auth/auth.service';
-import { UserService } from '../../services/firestore/user.service';
+import { UserService } from '../../services/user.service';
 import { RouterLink } from '@angular/router';
+import { User } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-menu',
@@ -27,7 +28,6 @@ import { RouterLink } from '@angular/router';
     TranslateModule,
     RouterLink
   ],
-  providers: [AuthService],
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.css']
 })
@@ -44,7 +44,7 @@ export class MenuComponent implements OnInit {
 
   ngOnInit() {
     this.currentLang = this.languageService.getCurrentLang();
-    this.authService.currentUser.subscribe(async user => {
+    this.authService.currentUser$.subscribe(async (user: User | null) => {
       if (user) {
         const userData = await this.userService.getById(user.uid);
         if (userData) {
