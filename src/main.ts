@@ -1,69 +1,46 @@
 import { bootstrapApplication } from '@angular/platform-browser';
+import { appConfig } from './app/app.config';
 import { AppComponent } from './app/app.component';
-import { provideAnimations } from '@angular/platform-browser/animations';
-import { provideRouter, Routes } from '@angular/router';
-import { HttpClient, provideHttpClient } from '@angular/common/http';
-import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { importProvidersFrom } from '@angular/core';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { AngularFireModule } from '@angular/fire/compat';
-import { AngularFireAuthModule } from '@angular/fire/compat/auth';
-import { environment } from './environments/environment';
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
-import { provideAuth, getAuth } from '@angular/fire/auth';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
-import { AuthGuardService } from './app/services/auth/auth.guard.service';
+import { provideAuth, getAuth } from '@angular/fire/auth';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { HttpClient, provideHttpClient } from '@angular/common/http';
+import { FIREBASE_OPTIONS } from '@angular/fire/compat';
 
 // AoT requires an exported function for factories
-export function createTranslateLoader(http: HttpClient) {
-  return new TranslateHttpLoader(http, '/assets/i18n/', '.json');
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
-const routes: Routes = [
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
-  {
-    path: 'login',
-    loadComponent: () => import('./app/pages/auth/login/login.component').then(m => m.LoginComponent)
-  },
-  {
-    path: 'profile',
-    loadComponent: () => import('./app/pages/profile/profile.component').then(m => m.ProfileComponent),
-    canActivate: [AuthGuardService]
-  },
-  {
-    path: 'dashboard',
-    loadComponent: () => import('./app/pages/dashboard/dashboard.component').then(m => m.DashboardComponent),
-    canActivate: [AuthGuardService]
-  },
-  {
-    path: 'registration',
-    loadComponent: () => import('./app/pages/registration/registration.component').then(m => m.RegistrationComponent)
-  },
-  { path: '404', loadComponent: () => import('./app/pages/error/error404/error404.component').then(m => m.Error404Component) },
-  { path: '500', loadComponent: () => import('./app/pages/error/error500/error500.component').then(m => m.Error500Component) },
-  { path: '**', redirectTo: '404' }
-];
+const firebaseConfig = {
+  apiKey: "AIzaSyBO3jF0KcegwyGxwl6rJ-pOO-WdJ_AYIyc",
+  authDomain: "vocationtracker.firebaseapp.com",
+  projectId: "vocationtracker",
+  storageBucket: "vocationtracker.firebasestorage.app",
+  messagingSenderId: "1073525198226",
+  appId: "1:1073525198226:web:5873e0d1968aa6afd6854b"
+};
 
 bootstrapApplication(AppComponent, {
   providers: [
-    provideAnimations(),
+    ...appConfig.providers,
     provideHttpClient(),
-    provideRouter(routes),
     importProvidersFrom(
-      MatSnackBarModule,
       TranslateModule.forRoot({
+        defaultLanguage: 'hu',
         loader: {
           provide: TranslateLoader,
-          useFactory: createTranslateLoader,
+          useFactory: HttpLoaderFactory,
           deps: [HttpClient]
         }
-      }),
-      AngularFireModule.initializeApp(environment.firebase),
-      AngularFireAuthModule // Firebase Authentication modul
+      })
     ),
-    provideFirebaseApp(() => initializeApp(environment.firebase)), // Firebase inicializáció
-    provideAuth(() => getAuth()), // Firebase Auth szolgáltatás
-    provideFirestore(() => getFirestore()), // Firestore szolgáltatás
+    provideFirebaseApp(() => initializeApp(firebaseConfig)),
+    provideAuth(() => getAuth()),
+    { provide: FIREBASE_OPTIONS, useValue: firebaseConfig },
+    provideFirestore(() => getFirestore())
   ]
-});
+}).catch(err => console.error(err));

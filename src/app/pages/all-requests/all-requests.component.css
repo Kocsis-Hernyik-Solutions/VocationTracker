@@ -1,5 +1,5 @@
 .all-requests-container {
-  padding: 20px;
+  padding: 1rem;
   max-width: 1200px;
   margin: 0 auto;
 }
@@ -9,24 +9,46 @@ h1 {
   color: #333;
 }
 
-.loading-spinner {
+.loading-state,
+.error-state {
   display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
-  padding: 40px;
+  padding: 2rem;
+  text-align: center;
 }
 
-.error-message {
-  background-color: #f8d7da;
-  color: #721c24;
-  padding: 15px;
-  border-radius: 8px;
-  margin-bottom: 20px;
+.loading-state mat-spinner {
+  margin-bottom: 1rem;
 }
 
 .requests-list {
+  margin-top: 1rem;
   display: flex;
   flex-direction: column;
   gap: 15px;
+}
+
+.requests-table {
+  width: 100%;
+  background: var(--card-background);
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: var(--box-shadow);
+}
+
+.mat-mdc-header-cell {
+  font-weight: 500;
+  color: var(--text-color);
+}
+
+.mat-mdc-cell {
+  color: var(--text-color);
+}
+
+.mat-mdc-row:hover {
+  background: var(--hover-background);
 }
 
 .request-item {
@@ -61,31 +83,54 @@ h1 {
   color: #444;
 }
 
-.status {
-  padding: 6px 12px;
+.status-approved,
+.status-pending,
+.status-rejected {
+  padding: 4px 8px;
   border-radius: 4px;
   font-weight: 500;
   text-transform: capitalize;
 }
 
-.status.pending {
-  background-color: #fff3cd;
-  color: #856404;
+.status-approved {
+  background-color: var(--success-color, rgba(76, 175, 80, 0.1));
+  color: var(--success-color, #4caf50);
 }
 
-.status.approved {
-  background-color: #d4edda;
-  color: #155724;
+.status-pending {
+  background-color: var(--warn-color, rgba(255, 152, 0, 0.1));
+  color: var(--warn-color, #ff9800);
 }
 
-.status.rejected {
-  background-color: #f8d7da;
-  color: #721c24;
+.status-rejected {
+  background-color: var(--error-color, rgba(244, 67, 54, 0.1));
+  color: var(--error-color, #f44336);
 }
 
 .no-requests {
   text-align: center;
-  padding: 40px;
-  color: #666;
-  font-style: italic;
+  padding: 2rem;
+  color: var(--secondary-text-color);
 }
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .all-requests-container {
+    padding: 0.5rem;
+  }
+
+  .mat-mdc-header-cell,
+  .mat-mdc-cell {
+    padding: 8px;
+  }
+
+  .status-approved,
+  .status-pending,
+  .status-rejected {
+    padding: 2px 4px;
+    font-size: 0.875rem;
+  }
+}
+
+
+

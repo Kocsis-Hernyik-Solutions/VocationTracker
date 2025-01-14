@@ -1,18 +1,40 @@
 <div class="calendar-container">
-  <div class="calendar-legend">
-    <div class="legend-item">
-      <span class="legend-color approved"></span>
-      <span class="legend-label">{{ 'CALENDAR.LEGEND.APPROVED' | translate }}</span>
-    </div>
-    <div class="legend-item">
-      <span class="legend-color pending"></span>
-      <span class="legend-label">{{ 'CALENDAR.LEGEND.PENDING' | translate }}</span>
-    </div>
-    <div class="legend-item">
-      <span class="legend-color rejected"></span>
-      <span class="legend-label">{{ 'CALENDAR.LEGEND.REJECTED' | translate }}</span>
-    </div>
-  </div>
-  
-  <full-calendar [options]="calendarOptions"></full-calendar>
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>{{ 'CALENDAR.TITLE' | translate }}</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <!-- Loading state -->
+      <div *ngIf="loading" class="loading-state">
+        <mat-spinner diameter="40"></mat-spinner>
+        <p>{{ 'COMMON.LOADING' | translate }}</p>
+      </div>
+
+      <!-- Error state -->
+      <div *ngIf="error" class="error-state">
+        <p>{{ 'CALENDAR.ERROR' | translate }}</p>
+      </div>
+
+      <!-- Legend -->
+      <div class="calendar-legend">
+        <div class="legend-item">
+          <span class="legend-color approved"></span>
+          <span>{{ 'CALENDAR.LEGEND.APPROVED' | translate }}</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-color pending"></span>
+          <span>{{ 'CALENDAR.LEGEND.PENDING' | translate }}</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-color rejected"></span>
+          <span>{{ 'CALENDAR.LEGEND.REJECTED' | translate }}</span>
+        </div>
+      </div>
+      <!-- Calendar -->
+      <div *ngIf="!loading && !error" class="calendar-wrapper">
+        <full-calendar [options]="calendarOptions"></full-calendar>
+      </div>
+    </mat-card-content>
+  </mat-card>
 </div>

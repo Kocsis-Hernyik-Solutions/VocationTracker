@@ -11,7 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AuthService } from '../../services/auth/auth.service';
-import { UserService } from '../../services/firestore/user.service';
+import { UserService } from '../../services/user.service';
 import { User } from '../../shared/models/User';
 
 @Component({
@@ -51,33 +51,34 @@ export class ProfileComponent implements OnInit {
       name: ['', [Validators.required, Validators.minLength(2)]],
       email: ['', [Validators.required, Validators.email]],
       position: ['', Validators.required],
-      department: ['', Validators.required]
+      department: ['', Validators.required],
+      phoneNumber: ['', [Validators.pattern(/^\+?[0-9\s-]{8,}$/)]],
     });
   }
 
   async ngOnInit(): Promise<void> {
     try {
       this.loading = true;
-      const userId = this.authService.userId;
-      if (userId) {
-        this.currentUser = await this.userService.getById(userId);
-        if (this.currentUser) {
-          this.profileForm.patchValue({
-            name: this.currentUser.name,
-            email: this.currentUser.email,
-            position: this.currentUser.position || '',
-            department: this.currentUser.department || ''
-          });
-        }
+      const userId = this.authService.getCurrentUserId();
+      if (!userId) {
+        this.router.navigate(['/login']);
+        return;
+      }
+
+      this.currentUser = await this.userService.getById(userId);
+      if (this.currentUser) {
+        this.profileForm.patchValue({
+          name: this.currentUser.name,
+          email: this.currentUser.email,
+          position: this.currentUser.position,
+          department: this.currentUser.department,
+          phoneNumber: this.currentUser.phoneNumber || ''
+        });
       }
     } catch (error) {
       console.error('Profile Load Error', error);
       this.errorHandler.handleError(error);
-      this.snackBar.open('Failed to load profile data', 'Close', {
-        duration: 3000,
-        horizontalPosition: 'center',
-        verticalPosition: 'bottom'
-      });
+      this.showErrorMessage('Failed to load profile data');
     } finally {
       this.loading = false;
     }
@@ -87,31 +88,26 @@ export class ProfileComponent implements OnInit {
     if (this.profileForm.valid && !this.saving) {
       try {
         this.saving = true;
-        const userId = this.authService.userId;
+        const userId = this.authService.getCurrentUserId();
         if (!userId) {
           throw new Error('No user ID found');
         }
 
-        const updatedUser: User = {
-          id: userId,
-          ...this.profileForm.value
+        const formValue = this.profileForm.value;
+        const updatedUser: Partial<User> = {
+          name: formValue.name,
+          position: formValue.position,
+          department: formValue.department,
+          phoneNumber: formValue.phoneNumber || undefined,
+          updatedAt: new Date()
         };
 
-        await this.userService.update(updatedUser);
-        
-        this.snackBar.open('Profile updated successfully', 'Close', {
-          duration: 3000,
-          horizontalPosition: 'center',
-          verticalPosition: 'bottom'
-        });
+        await this.userService.update(userId, updatedUser);
+        this.showSuccessMessage('Profile updated successfully');
       } catch (error) {
         console.error('Profile Update Error', error);
         this.errorHandler.handleError(error);
-        this.snackBar.open('Failed to update profile', 'Close', {
-          duration: 3000,
-          horizontalPosition: 'center',
-          verticalPosition: 'bottom'
-        });
+        this.showErrorMessage('Failed to update profile');
       } finally {
         this.saving = false;
       }
@@ -129,9 +125,12 @@ export class ProfileComponent implements OnInit {
       return 'Please enter a valid email address';
     }
     if (control?.hasError('minlength')) {
-      return field === 'name' 
+      return field === 'name'
         ? 'Name must be at least 2 characters long'
         : 'Must be at least 2 characters long';
+    }
+    if (control?.hasError('pattern')) {
+      return 'Please enter a valid phone number';
     }
     return '';
   }
@@ -142,6 +141,24 @@ export class ProfileComponent implements OnInit {
       if (control instanceof FormGroup) {
         this.markFormGroupTouched(control);
       }
+    });
+  }
+
+  private showSuccessMessage(message: string): void {
+    this.snackBar.open(message, 'Close', {
+      duration: 3000,
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom',
+      panelClass: ['success-snackbar']
+    });
+  }
+
+  private showErrorMessage(message: string): void {
+    this.snackBar.open(message, 'Close', {
+      duration: 3000,
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom',
+      panelClass: ['error-snackbar']
     });
   }
 }
