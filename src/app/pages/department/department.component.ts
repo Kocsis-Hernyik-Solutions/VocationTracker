@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -8,46 +8,56 @@ import { MatInputModule } from '@angular/material/input';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { DepartmentService } from '../../services/firestore/department.service';
 import { Department } from '../../shared/models/Department';
-
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  { position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H' },
-  { position: 2, name: 'Helium', weight: 4.0026, symbol: 'He' },
-  { position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li' },
-  { position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be' },
-  { position: 5, name: 'Boron', weight: 10.811, symbol: 'B' },
-  { position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C' },
-  { position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N' },
-  { position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O' },
-  { position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F' },
-  { position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne' },
-];
-
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-department',
   standalone: true,
-  imports: [MatTableModule, MatFormFieldModule, MatInputModule, MatCardModule,
+  imports: [
+    MatTableModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatCardModule,
     CommonModule,
     ReactiveFormsModule,
-    MatButtonModule
+    MatButtonModule,
+    MatIcon
   ],
   templateUrl: './department.component.html',
-  styleUrl: './department.component.css'
+  styleUrl: './department.component.css',
 })
-export class DepartmentComponent {
+export class DepartmentComponent implements OnInit {
+  deleteDepartment(department: Department) {
+    if (department.members === 0) {
+      this.departmentService.deleteDepartment(department.id);
+      // Távolítsuk el az elemet a tömbből
+      this.departments = this.departments.filter(d => d.id !== department.id);
 
+      // Frissítsük a táblázat adatforrását
+      this.dataSource.data = this.departments;
+    } else {
+      console.log("amég van meber nem lehet törölni");
+    }
+  }
   exampleForm: FormGroup;
+  departments: Department[] = [];
+  dataSource = new MatTableDataSource<Department>([]); // Üres kezdeti adatforrás
+  displayedColumns: string[] = ['name', 'members', 'leaders', 'delete'];
 
-  constructor(private fb: FormBuilder, private departmentService: DepartmentService) {
+  constructor(
+    private fb: FormBuilder,
+    private departmentService: DepartmentService
+  ) {
     this.exampleForm = this.fb.group({
-      data: ['', [Validators.required, Validators.minLength(3)]]
+      //Validators.required, Validators.minLength(3) kivettem mert zavart xd
+      data: ['', []],
+    });
+  }
+
+  ngOnInit(): void {
+    this.departmentService.getAllDepartments().subscribe((departments) => {
+      this.departments = departments;
+      this.dataSource.data = this.departments; // Frissítjük a táblázat adatforrását
     });
   }
 
@@ -56,14 +66,16 @@ export class DepartmentComponent {
       id: crypto.randomUUID(),
       name: this.exampleForm.get('data')?.value,
       members: 0,
-      leaders: {
-        leaderId: ''
-      }
-    }
+      leaders: []
+    };
     this.departmentService.create(department);
+    this.exampleForm.get('data')?.setValue('');
+    // Hozzáadjuk az új elemet a tömbhöz
+    this.departments.push(department);
+
+    // Frissítjük a MatTableDataSource-t
+    this.dataSource.data = this.departments;
   }
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-  dataSource = new MatTableDataSource(ELEMENT_DATA);
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;

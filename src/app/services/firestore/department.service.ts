@@ -1,6 +1,6 @@
 import { AngularFirestore } from "@angular/fire/compat/firestore";
 import { Department } from "../../shared/models/Department";
-import { map } from "rxjs";
+import { catchError, map, of } from "rxjs";
 import { Injectable } from "@angular/core";
 
 @Injectable({
@@ -17,20 +17,16 @@ export class DepartmentService {
         return this.afs.collection<Department>(this.collectionNames).doc(department.id).set(department);
     }
 
-    gatAllDepartments() {
-        return this.afs.collection<Department>(this.collectionNames)
-      .get()
-      .pipe(
-        map((querySnapshot) => {
-          const departments: Department[] = [];
-          querySnapshot.forEach((doc) => {
-            const data = doc.data() as Department;
-            departments.push(data);
-          });
-
-          return departments;
-        })
-      );
+    getAllDepartments() {
+      return this.afs.collection<Department>(this.collectionNames)
+        .get()
+        .pipe(
+          map((querySnapshot) => querySnapshot.docs.map((doc) => doc.data() as Department)),
+          catchError((error) => {
+            console.error('Failed to fetch departments:', error);
+            return of([]); // Return an empty array on error
+          })
+        );
     }
 
     updateDepartment(departmentId: string, updatedData: Partial<Department>): Promise<void> {

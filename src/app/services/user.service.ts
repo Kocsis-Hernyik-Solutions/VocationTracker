@@ -44,7 +44,7 @@ export class UserService {
     await setDoc(userRef, {
       email: userData.email,
       name: userData.name || '',
-      position: userData.position || '',
+      position: userData.post || '',
       department: userData.department || '',
       role: userData.role || 'user',
       remainingDays: userData.remainingDays || 20

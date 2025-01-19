@@ -102,35 +102,6 @@ export class RegistrationComponent implements OnInit {
     if (this.signupForm.valid) {
       try {
         const { email, password, name, position, department } = this.signupForm.value;
-<<<<<<< HEAD:src/app/pages/registration/registration.component.ts
-        
-        // First create the user in Firebase Auth
-        const credential = await this.authService.signupUser(email, password);
-        
-        if (credential && credential.user) {
-          // Then create the user document in Firestore
-          const user: User = {
-            id: credential.user.uid,
-            email: email,
-            name: name,
-            post: position,
-            department: department,
-            avaiable_days_off: 0,
-            taken_days: 0,
-            leader: false,
-            admin: false
-          };
-          
-          await this.userService.create(user);
-          
-          // Show success message
-          this.snackBar.open('Registration successful! Please log in.', 'Close', {
-            duration: 3000,
-            horizontalPosition: 'center',
-            verticalPosition: 'bottom'
-          });
-=======
->>>>>>> 1254107435a254f99c448ebe6359a7d68c97986f:src/app/pages/auth/registration/registration.component.ts
 
         // Create the user in Firebase Auth
         const firebaseUser = await this.authService.signupUser(email, password);
@@ -140,13 +111,14 @@ export class RegistrationComponent implements OnInit {
           id: firebaseUser.uid,
           email: email,
           name: name,
-          position: position,
+          post: position,
           department: department,
           remainingDays: 20, // Default value
           role: 'user', // Default role
           createdAt: new Date(),
           updatedAt: new Date(),
-          isActive: true
+          isActive: true,
+          taken_days: 0
         };
 
         await this.userService.create(user);

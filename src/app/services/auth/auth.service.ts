@@ -3,6 +3,7 @@ import { Auth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signO
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { UserService } from '../user.service';
+import { Department } from '../../shared/models/Department';
 
 @Injectable({
   providedIn: 'root'
@@ -31,6 +32,7 @@ export class AuthService {
     try {
       const result = await signInWithEmailAndPassword(this.auth, email, password);
       if (result.user) {
+        
         // Check if user exists in Firestore, if not create them
         const userDoc = await this.userService.getById(result.user.uid);
         if (!userDoc) {
@@ -39,8 +41,8 @@ export class AuthService {
             name: result.user.displayName || 'User',
             role: 'user',
             remainingDays: 20,
-            position: '',
-            department: '',
+            post: '',
+            department: undefined,
             isActive: true,
             createdAt: new Date(),
             updatedAt: new Date()

@@ -35,6 +35,16 @@ export const routes: Routes = [
     canActivate: [AuthGuardService]
   },
   {
+    path: 'department',
+    loadChildren: () => import('./pages/department/department.module').then(m => m.DepartmentModule),
+    
+  },
+  {
+    path: 'employee',
+    loadChildren: () => import('./pages/employee/employee.module').then(m => m.EmployeeModule),
+    
+  },
+  {
     path: '404',
     loadComponent: () => import('./pages/error/error404/error404.component').then(m => m.Error404Component)
   },

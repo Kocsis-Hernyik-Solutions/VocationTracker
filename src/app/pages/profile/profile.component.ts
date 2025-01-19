@@ -70,7 +70,7 @@ export class ProfileComponent implements OnInit {
         this.profileForm.patchValue({
           name: this.currentUser.name,
           email: this.currentUser.email,
-          position: this.currentUser.position,
+          post: this.currentUser.post,
           department: this.currentUser.department,
           phoneNumber: this.currentUser.phoneNumber || ''
         });
@@ -96,7 +96,7 @@ export class ProfileComponent implements OnInit {
         const formValue = this.profileForm.value;
         const updatedUser: Partial<User> = {
           name: formValue.name,
-          position: formValue.position,
+          post: formValue.post,
           department: formValue.department,
           phoneNumber: formValue.phoneNumber || undefined,
           updatedAt: new Date()
